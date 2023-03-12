@@ -69,7 +69,36 @@ const MainRouter = ({ token }) => {
   } else {
     routes = (
       <>
+        <MainNavigation />
 
+        <Switch>
+          <Route path='/' exact>
+            <Home />
+          </Route>
+          <Route path='/auth/new-user' exact>
+            <Auth newUser={true} />
+          </Route>
+          <Route path='/auth' exact>
+            <Auth newUser={false} />
+          </Route>
+          <Route path='/tags' exact>
+            <Tags />
+          </Route>
+          <Route path='/tags/:tagName' exact>
+            <Tag />
+          </Route>
+          <Route path='/search/' exact>
+            <SearchResults />
+          </Route>
+          <Route path='/users/:userId' exact>
+            <UserProfile />
+          </Route>
+          <Route path='/posts/:titleURL/:postId' exact>
+            <Post />
+          </Route>
+          <Redirect to='/auth' />
+        </Switch>
+        <Footer />
       </>
     );
   }
