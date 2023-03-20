@@ -1,8 +1,8 @@
-import { useContext } from 'react';
-import queryString from 'query-string';
-import { useHttpClient } from './useHttpClient';
-import { SearchContext } from '../context/search';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useContext } from "react";
+import queryString from "query-string";
+import { useHttpClient } from "./useHttpClient";
+import { SearchContext } from "../context/search";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const useSearch = () => {
   const { setSearchValue, setSearchResults } = useContext(SearchContext);
@@ -10,11 +10,11 @@ const useSearch = () => {
   const { sendReq } = useHttpClient();
   const history = useHistory();
 
-  const search = async (value) => {
-    if (value) {
+  const search = async (value, type) => {
+    if (value && type) {
       setSearchValue(value);
       try {
-        const data = await list({ search: value || undefined });
+        const data = await list({ search: value || undefined, type: type });
         setSearchResults(data);
         history.push(`/search/?query=${value}`);
       } catch (err) {

@@ -1,5 +1,5 @@
 .container-posts {
-  width: 100%;
+  width: 690px;
 }
 
 .container-posts > ul {
@@ -171,14 +171,14 @@ POST PREVIEW
 }
 
 button.btn--save {
-  background: #d6d6d7;
+  background: #fff;
   text-transform: none;
   font-size: 1.4rem;
   padding: 0.8rem 1rem;
 }
 
 button.btn--save:hover {
-  background: #bdbdbd;
+  background: #dadada;
 }
 
 .btn-div {

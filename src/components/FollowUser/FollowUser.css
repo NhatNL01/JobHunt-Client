@@ -10,6 +10,6 @@
   color: var(--color-white);
   cursor: pointer;
 }
-button.btn.btn--profile-cta:hover {
+/* button.btn.btn--profile-cta:hover {
   background-color: rgba(0, 0, 0, 0.1);
-}
+} */

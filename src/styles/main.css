@@ -67,6 +67,14 @@ html {
   cursor: pointer;
 }
 
+.position-relative{
+  position: relative;
+}
+
+.display-inlineblock{
+  display: inline-block;
+}
+
 @media (max-width: 56.25em) {
   .btn,
   .btn:link,

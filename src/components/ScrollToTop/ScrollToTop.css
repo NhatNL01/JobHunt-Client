@@ -1,0 +1,10 @@
+.btn-scrolltotop{
+position: fixed; 
+top: 85%;
+   left: 85%;
+   bottom: 40px;
+   font-size: 5rem;
+   z-index: 1;
+   cursor: pointer;
+   color: var(--color-primary);
+}

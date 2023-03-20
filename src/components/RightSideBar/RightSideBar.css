@@ -10,7 +10,8 @@ RIGHT SIDEBAR
 
 .news,
 .discuss,
-.webdev {
+.webdev,
+.job {
   display: flex;
   flex-direction: column;
   background: #fafafa;
@@ -19,13 +20,15 @@ RIGHT SIDEBAR
 }
 
 .discuss,
-.webdev {
+.webdev,
+.job {
   margin-top: 2rem;
 }
 
 .news h3,
 .discuss h3,
-.webdev h3 {
+.webdev h3,
+.job h3 {
   border-bottom: 1px solid #efefef;
   padding: 0.5rem 1.5rem;
   margin-left: 0;

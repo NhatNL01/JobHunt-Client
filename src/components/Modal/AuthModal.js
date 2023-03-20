@@ -1,4 +1,4 @@
-import { FaDev } from '@react-icons/all-files/fa/FaDev';
+import { FaBlackTie } from '@react-icons/all-files/fa/FaBlackTie';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { GuestNavLinks } from '../MainNavigation/NavLinks/GuestNavLinks';
@@ -10,7 +10,7 @@ const AuthModal = (props) => {
     <Modal title='Log in to continue' show={props.show} onClose={props.onClose}>
       <div className='modal__container'>
         <NavLink to='/' className='header__logo nav__logo--modal'>
-          <FaDev size='6.125rem' />
+          <FaBlackTie size='6.125rem' />
         </NavLink>
         <p>
           We're a place where coders share, stay up-to-date and grow their

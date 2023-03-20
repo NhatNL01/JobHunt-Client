@@ -69,6 +69,7 @@ header {
   border: 1px solid #ccc;
   padding: 1.1rem;
   margin: 0 1.7rem;
+  margin-right: 0.5rem;
   border-radius: var(--border-radius);
 }
 

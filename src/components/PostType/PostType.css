@@ -1,0 +1,28 @@
+.mr-10{
+  margin-right: 10px;
+}
+
+.post-type{
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-type-item{
+  padding: 8px 30px;
+  font-size: 2rem;
+  border-radius: 7px;
+  cursor: pointer;
+  background-color: #fff;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.post-type-item:hover{
+  background-color:var(--color-primary);
+  color: #fff;
+}
+.post-type-item:hover *{
+  color: #fff;
+}

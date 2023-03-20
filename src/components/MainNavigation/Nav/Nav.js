@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FaDev } from '@react-icons/all-files/fa/FaDev';
+import { FaBlackTie } from '@react-icons/all-files/fa/FaBlackTie';
 import NavLinks from '../NavLinks/NavLinks';
 import './Nav.css';
 import { SocketContext } from '../../../context/socket';
@@ -43,7 +43,7 @@ const Nav = ({ children, onSearchIconClick }) => {
             }
           );
           setUnreadNotifications(responseData.notifications);
-        } catch (err) {}
+        } catch (err) { }
       };
       fetchUnreadNotifications();
     }
@@ -67,7 +67,7 @@ const Nav = ({ children, onSearchIconClick }) => {
       <div className='header__hamburger-menu' onClick={openDrawerHandler}></div>
       <div className='header__logo-search'>
         <NavLink to='/' className='header__logo'>
-          <FaDev size='4.125rem' />
+          <FaBlackTie size='4.125rem' />
         </NavLink>
         {children}
       </div>

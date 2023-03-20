@@ -1,0 +1,9 @@
+.flex{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#post, #jobPost{
+    margin: 10px 20px;
+}

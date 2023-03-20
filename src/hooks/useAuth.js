@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import useHttpClient from './useHttpClient';
+import { useState, useEffect, useCallback } from "react";
+import useHttpClient from "./useHttpClient";
 
 let logoutTimer;
 
@@ -22,9 +22,10 @@ const useAuth = () => {
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpirationDate(tokenExpirationDate);
     localStorage.setItem(
-      'userData',
+      "userData",
       JSON.stringify({
         userId: user.userId,
+        role: user.role,
         token: user.token,
         bio: user.bio,
         avatar: user.avatar,
@@ -41,18 +42,18 @@ const useAuth = () => {
     setUserId(null);
     setUser(null);
     setTokenExpirationDate(null);
-    localStorage.removeItem('userData');
+    localStorage.removeItem("userData");
     //GET request to backend for twitter since it uses passport
     sendReq(
       `${process.env.REACT_APP_BASE_URL}/users/auth/twitter/logout`,
-      'GET',
+      "GET",
       null,
       {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': true,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
       },
-      'include'
+      "include"
     );
   }, [sendReq]);
 
@@ -67,7 +68,7 @@ const useAuth = () => {
   }, [token, logout, tokenExpirationDate]);
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem('userData'));
+    const storedData = JSON.parse(localStorage.getItem("userData"));
     if (storedData && new Date(storedData.expiration) > new Date()) {
       login(
         // storedData.userId,

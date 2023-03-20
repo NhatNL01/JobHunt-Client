@@ -1,7 +1,8 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 
 export const SearchContext = createContext({
   // searched: false,
-  searchValue: '',
+  searchValue: "",
+  searchType: "",
   searchResults: [],
 });

@@ -7,12 +7,12 @@ export const canModifyComment = (currentUserId, authorId) =>
 export const canReply = (currentUserId) => !!currentUserId;
 export const isReplying = (activeComment, commentId) =>
   activeComment &&
-  activeComment.type === 'replying' &&
+  activeComment.type === "replying" &&
   activeComment.id === commentId;
 
 export const isEditing = (activeComment, commentId) =>
   activeComment &&
-  activeComment.type === 'editing' &&
+  activeComment.type === "editing" &&
   activeComment.id === commentId;
 
 export const readingTime = (body) => {
@@ -42,15 +42,15 @@ export const getReplies = (comments, commentId) => {
 };
 
 export const formatDate = (date) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  const options = { year: "numeric", month: "short", day: "numeric" };
   const today = new Date(date);
 
-  return today.toLocaleDateString('en-US', options);
+  return today.toLocaleDateString("en-US", options);
 };
 
 export const getRandomColor = () => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
+  const letters = "0123456789ABCDEF";
+  let color = "#";
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
