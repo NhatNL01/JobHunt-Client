@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHttpClient } from "../../hooks/useHttpClient";
 import ErrorModal from "../Modal/ErrorModal";
 import TagList from "./TagList";
-import "./Tags.css";
+import "./Cv.css";
 
 const Tags = () => {
   const [loadedTags, setLoadedTags] = useState([]);
