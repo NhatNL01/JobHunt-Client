@@ -62,3 +62,31 @@ button.btn-following {
 button.btn-following:hover {
   background: rgba(0, 0, 0, 0.035);
 }
+
+.img-cv-a4 {
+  height: 550px;
+  object-fit: cover;
+}
+
+.flex-item {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bg-delete {
+  background: #b91c1b;
+  color: #fff;
+}
+
+.bg-add {
+  background: #38a7c3;
+  color: #fff;
+}
+.btn-add-cv {
+  width: 200px;
+}
+.justify-start {
+  margin-left: 0;
+}

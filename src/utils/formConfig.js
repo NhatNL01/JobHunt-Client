@@ -243,6 +243,17 @@ export let editProfileForm = {
   },
 };
 
+export const newCVForm = {
+  name: {
+    ...createFormFieldConfig("Name", "name", "text"),
+    validationRules: [requiredRule("name")],
+  },
+  image: {
+    ...createFormFieldConfig("Image", "image", "file"),
+    validationRules: [requiredRule("image")],
+  },
+};
+
 export const prefillEditPostForm = (data) => {
   for (let [key, value] of Object.entries(data)) {
     if (key in editPostForm) {

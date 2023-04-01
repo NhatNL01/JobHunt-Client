@@ -1,30 +1,71 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHttpClient } from "../../hooks/useHttpClient";
-import ErrorModal from "../Modal/ErrorModal";
-import TagList from "./TagList";
+import { useParams } from "react-router-dom";
+import ErrorModal from "../../components/Modal/ErrorModal";
+import AddCVModal from "../../components/Modal/AddCVModal";
+import CvList from "./CvList";
+import { AuthContext } from "../../context/auth";
 import "./Cv.css";
 
-const Tags = () => {
-  const [loadedTags, setLoadedTags] = useState([]);
+const Cv = () => {
+  const { userId } = useParams();
+  const { currentUser } = useContext(AuthContext);
+  const [loadedCvs, setLoadedCvs] = useState([]);
+  const [isAdded, setIsAdded] = useState(false);
   const { isLoading, sendReq, error, clearError } = useHttpClient();
-
   useEffect(() => {
-    const fetchTags = async () => {
+    const fetchCvs = async () => {
       try {
         const responseData = await sendReq(
-          `${process.env.REACT_APP_BASE_URL}/tags/`
+          `${process.env.REACT_APP_BASE_URL}/cvs/user/${userId}`,
+          "GET",
+          null,
+          {
+            Authorization: `Bearer ${currentUser.token}`,
+          }
         );
-        setLoadedTags(responseData.tags);
+        setLoadedCvs(responseData.cvs);
       } catch (err) {}
     };
-    fetchTags();
-  }, [sendReq]);
+    fetchCvs();
+  }, [sendReq, userId, currentUser, isAdded]);
+
+  // Handle register recruiter
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const showAddCVHandler = () => {
+    setShowConfirmModal(true);
+  };
+
+  const cancelAddCVHandler = () => {
+    setShowConfirmModal(false);
+  };
+
+  const confirmAddCVHandler = () => {
+    setShowConfirmModal(false);
+    setIsAdded(true);
+  };
+
   return (
     <>
       <ErrorModal error={error} onClose={clearError} />
-      <TagList isLoading={isLoading} tags={loadedTags} />
+      <div className="container tags">
+        <AddCVModal
+          onClose={() => setShowConfirmModal(false)}
+          show={showConfirmModal}
+          cancelAddCVHandler={cancelAddCVHandler}
+          confirmAddCVHandler={confirmAddCVHandler}
+        />
+        <button
+          className="btn btn-tag-follow btn-add-cv bg-add"
+          onClick={showAddCVHandler}>
+          {" "}
+          + Add Your CV
+        </button>
+      </div>
+      <CvList isLoading={isLoading} cvs={loadedCvs} />
     </>
   );
 };
 
-export default Tags;
+export default Cv;

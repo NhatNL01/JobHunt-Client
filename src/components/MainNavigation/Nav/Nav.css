@@ -42,7 +42,7 @@ header {
 
 .header__hamburger-menu::before,
 .header__hamburger-menu::after {
-  content: '';
+  content: "";
   background-color: var(--color-black);
   height: 2px;
   width: 1.6rem;
@@ -242,6 +242,8 @@ NAV
   background: transparent;
   font-size: 1.6rem;
   padding: 0;
+  width: 100%;
+  text-align: left;
 }
 
 .dropdown small {
