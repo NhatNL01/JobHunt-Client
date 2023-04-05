@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import AuthModal from "../../components/Modal/AuthModal";
 import { DeleteCv } from "./DeleteCv";
 import { PostImage } from "../../components/PostImage/PostImage";
+import ListImage from "../../components/ListImage/ListImage";
 
 const CvItem = ({ name, id, image, followers, clickFollowButton }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +17,8 @@ const CvItem = ({ name, id, image, followers, clickFollowButton }) => {
           src={image}
           alt={`Cover image for ${name}`}
         />
+        <ListImage images={[image]} />
+
         <div className="flex-item">
           <h3 className="mr-20">{name}</h3>
           <DeleteCv cvId={id} setShowModal={setShowModal} />

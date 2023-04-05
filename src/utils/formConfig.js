@@ -2,6 +2,7 @@ import React from "react";
 import TagsInput from "../components/FormElements/TagsInput/TagsInput";
 import { BodyInput } from "../components/FormElements/BodyInput/BodyInput";
 import { TypeRadioInput } from "../components/FormElements/TypeRadioInput/TypeRadioInput";
+import { CVRadioInput } from "../components/FormElements/CVRadioInput/CVRadioInput";
 import ImageUpload from "../components/FormElements/ImageUpload/ImageUpload";
 import Input from "../components/FormElements/Input/Input";
 import {
@@ -47,6 +48,16 @@ const createFormFieldConfig = (
       if (label === "Post type") {
         return (
           <TypeRadioInput
+            label={label}
+            key="type"
+            value={value}
+            onChange={onCustomInputChange}
+          />
+        );
+      }
+      if (label === "CV") {
+        return (
+          <CVRadioInput
             label={label}
             key="type"
             value={value}
@@ -251,6 +262,17 @@ export const newCVForm = {
   image: {
     ...createFormFieldConfig("Image", "image", "file"),
     validationRules: [requiredRule("image")],
+  },
+};
+
+export const newApplicationForm = {
+  cv: {
+    ...createFormFieldConfig("CV", "cv", "text"),
+    validationRules: [requiredRule("cv")],
+  },
+  body: {
+    ...createFormFieldConfig("Body", "body", "text"),
+    validationRules: [requiredRule("Body")],
   },
 };
 

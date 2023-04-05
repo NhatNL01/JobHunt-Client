@@ -1,0 +1,52 @@
+.userListPage {
+  flex: 4;
+  width: 90%;
+  margin: 0 auto;
+  *{
+    font-size: 18px;
+  }
+
+
+  .userListField {
+    display: flex;
+    align-items: center;
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+  }
+
+  .editButton {
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #3bb077;
+    color: white;
+    margin-right: 15px;
+    cursor: pointer;
+  }
+
+  .pending{
+    background-color: #4f45e5;
+  }
+  .approved{
+    background-color: #169668;
+  }
+  .rejected{
+    background-color: #b91c1b;
+  }
+
+  .deleteButton {
+    cursor: pointer;
+    color: rgb(182, 0, 0);
+    font-size: 26px;
+  }
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}

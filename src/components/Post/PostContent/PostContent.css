@@ -102,3 +102,8 @@
     flex-direction: row;
   }
 }
+
+.btn-apply {
+  background-color: #169668;
+  margin-bottom: 0;
+}

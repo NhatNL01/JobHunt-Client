@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, useParams } from "react-router-dom";
 import { useHttpClient } from "../../hooks/useHttpClient";
 import PostList from "../../components/PostList/PostList";
@@ -68,6 +70,16 @@ const UserProfile = () => {
       const { role } = responseData.user;
       const { setUser: setAppUser } = auth;
       setAppUser({ ...currentUser, role });
+      toast.success("Register successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       // history.push("/");
     } catch (err) {
       console.log(err);
@@ -78,6 +90,7 @@ const UserProfile = () => {
     <>
       <ErrorModal error={error} onClose={clearError} />
       <AuthModal onClose={() => setShowModal(false)} show={showModal} />
+      <ToastContainer />
       <div className="container-layout container-user">
         <div className="user__main">
           <Avatar src={user.avatar} isLoading={isLoading} />

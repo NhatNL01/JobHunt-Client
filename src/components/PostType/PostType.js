@@ -4,13 +4,6 @@ import { FaBriefcase } from "@react-icons/all-files/fa/FaBriefcase";
 import "./PostType.css";
 
 const PostType = ({ getType }) => {
-  // const [type, setType] = React.useState("post");
-
-  // function changeType(t) {
-  //   setType(t);
-  // }
-  // console.log(type);
-
   return (
     <div className="post-type">
       <div className="post-type-item" onClick={(e) => getType("post")}>

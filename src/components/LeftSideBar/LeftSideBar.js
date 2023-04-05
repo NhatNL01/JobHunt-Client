@@ -56,7 +56,7 @@ const LeftSideBar = () => {
               </NavLink>
             </li>
             <li className="list__item hvr-bg-lt">
-              <NavLink to="/About" exact>
+              <NavLink to="/hradmin" exact>
                 <i>
                   <FaBlackTie />
                 </i>

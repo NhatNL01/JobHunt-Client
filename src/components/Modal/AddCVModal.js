@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Modal from "./Modal";
 import { AuthContext } from "../../context/auth";
 import useForm from "../../hooks/useForm";
@@ -10,7 +12,7 @@ import ErrorModal from "../../components/Modal/ErrorModal";
 const AddCVModal = (props) => {
   const auth = useContext(AuthContext);
   const { currentUser } = auth;
-  const { isLoading, sendReq, error, clearError } = useHttpClient();
+  const { sendReq, error, clearError } = useHttpClient();
 
   const { renderFormInputs, renderFormValues, isFormValid } =
     useForm(newCVForm);
@@ -25,6 +27,16 @@ const AddCVModal = (props) => {
       await sendReq(`${process.env.REACT_APP_BASE_URL}/cvs`, "POST", formData, {
         Authorization: `Bearer ${currentUser.token}`,
       });
+      toast.success("Add successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       //   history.push("/");
       props.confirmAddCVHandler();
     } catch (err) {
@@ -34,6 +46,7 @@ const AddCVModal = (props) => {
   return (
     <>
       <ErrorModal error={error} onClose={clearError} />
+      <ToastContainer />
       <Modal
         title="Add your CV"
         show={props.show}

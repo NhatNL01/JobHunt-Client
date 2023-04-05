@@ -26,12 +26,14 @@
   pointer-events: visible;
 }
 .modal__content {
-  width: 40%;
+  width: 600px;
   border-radius: var(--border-radius);
   padding: 1.5rem;
   background-color: var(--color-white);
   transform: translateY(-20rem);
   transition: all 0.3s ease-in-out;
+  max-height: 700px;
+  overflow-y: auto;
 }
 .modal.enter-done .modal__content {
   transform: translateY(0);

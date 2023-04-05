@@ -37,7 +37,11 @@ const SearchBar = (props) => {
         onChange={onInputChange}
         onKeyDown={onEnterKey}
       />
-      <DropDown handleSelect={handleSelect} menu={["Post", "Job"]} />
+      <DropDown
+        handleSelect={handleSelect}
+        menu={["Post", "Job"]}
+        isMobile={props.showSearchOnMobile}
+      />
     </Fragment>
   );
 };

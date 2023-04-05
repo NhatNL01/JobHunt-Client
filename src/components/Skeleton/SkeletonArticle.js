@@ -14,7 +14,7 @@ const SkeletonArticle = ({ type, firstEl }) => {
         ) : (
           <SkeletonElement type="thumbnail" />
         )}
-        {renderRepeatedSkeletons(<SkeletonElement type="text" />, 3)}
+        {/* {renderRepeatedSkeletons(<SkeletonElement type="text" />, 3)} */}
       </div>
       <Shimmer />
     </div>

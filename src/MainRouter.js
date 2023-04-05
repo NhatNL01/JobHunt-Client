@@ -14,9 +14,12 @@ import Tag from "./pages/Tag/Tag";
 import Post from "./pages/Post/Post";
 import SearchResults from "./pages/SearchResults/SearchResults";
 import ReadingList from "./pages/ReadingList/ReadingList";
+import HrAdmin from "./pages/HrAdmin/HrAdmin";
+import Application from "./pages/HrAdmin/Apllication";
 import Footer from "./components/Footer/Footer";
 import { AuthContext } from "./context/auth";
 import { BrowserRouter as Router } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 const MainRouter = ({ token }) => {
   let routes;
@@ -25,9 +28,16 @@ const MainRouter = ({ token }) => {
     routes = (
       <>
         <MainNavigation />
+
         <Switch>
           <Route path="/" exact>
             <Home />
+          </Route>
+          <Route path="/hradmin" exact>
+            <HrAdmin />
+          </Route>
+          <Route path="/hradmin/applications/:jobId" exact>
+            <Application />
           </Route>
           <Route path="/users/:userId" exact>
             <UserProfile />
@@ -74,6 +84,7 @@ const MainRouter = ({ token }) => {
     routes = (
       <>
         <MainNavigation />
+        {/* <ScrollToTop /> */}
 
         <Switch>
           <Route path="/" exact>
@@ -107,7 +118,12 @@ const MainRouter = ({ token }) => {
     );
   }
 
-  return <Router>{routes}</Router>;
+  return (
+    <Router>
+      <ScrollToTop />
+      {routes}
+    </Router>
+  );
 };
 
 export default MainRouter;

@@ -5,7 +5,6 @@ export const Dropdown = ({ showMenu, currentUser, handleLogout }) => {
   const history = useHistory();
   const handleRedirect = useCallback((url) => history.push(url), [history]);
   const currentUserEmail = currentUser && currentUser.email;
-
   return (
     <div className={showMenu ? "dropdown" : "dropdown--close"}>
       <ul className="dropdown__list">
@@ -59,6 +58,17 @@ export const Dropdown = ({ showMenu, currentUser, handleLogout }) => {
             My CV
           </button>
         </li>
+        {currentUser?.role === "recruiter" ? (
+          <li className="list__item hvr-bg-lt">
+            <button
+              className="btn dropdown__btn"
+              onMouseDown={() => handleRedirect(`/hradmin`)}>
+              HR Admin
+            </button>
+          </li>
+        ) : (
+          <span></span>
+        )}
         <li className="list__item hvr-bg-lt">
           <button className="btn dropdown__btn" onMouseDown={handleLogout}>
             Signout

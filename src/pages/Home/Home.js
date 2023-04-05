@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Posts from "../../components/Post/Posts";
 import RightSideBar from "../../components/RightSideBar/RightSideBar";
 import LeftSideBar from "../../components/LeftSideBar/LeftSideBar";
-import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
+import ScrollToTopButton from "../../components/ScrollToTop/ScrollToTopButton";
 import useHttpClient from "../../hooks/useHttpClient";
 import { AuthContext } from "../../context/auth";
 
 const Home = () => {
   const [tags, setTags] = useState([]);
   const { sendReq, isLoading } = useHttpClient();
-  const { login } = useContext(AuthContext);
+  // const { login } = useContext(AuthContext);
 
   // useEffect(() => {
   //   const handleTwitterAuth = async () => {
@@ -50,7 +50,7 @@ const Home = () => {
         <Posts cover={true} />
         <RightSideBar tags={tags} isLoading={isLoading} />
       </div>
-      <ScrollToTop></ScrollToTop>
+      <ScrollToTopButton></ScrollToTopButton>
     </Fragment>
   );
 };

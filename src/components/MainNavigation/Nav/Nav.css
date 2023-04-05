@@ -7,6 +7,10 @@
   display: flex;
   max-width: 128rem;
   padding-top: 0.5rem;
+  /* position: fixed;
+  background-color: #fff;
+  top: 0;
+  width: 100%; */
 }
 
 /*==============
@@ -60,7 +64,7 @@ header {
 
 .header__logo-search {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .search-bar,
@@ -80,6 +84,14 @@ header {
 .search-bar--mobile {
   width: 99%;
   margin: 0.5rem;
+}
+
+.drop-down {
+  display: none;
+}
+
+.drop-down--mobile {
+  float: right;
 }
 
 /*==============
@@ -148,6 +160,10 @@ NAV
 @media (min-width: 768px) {
   .list__item--mobile,
   .search-bar {
+    display: inline-block;
+  }
+
+  .drop-down {
     display: inline-block;
   }
 

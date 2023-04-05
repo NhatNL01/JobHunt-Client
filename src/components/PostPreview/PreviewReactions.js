@@ -61,9 +61,9 @@ const PreviewReactions = ({ userId, post, showModal, setShowModal }) => {
 
         <button className="btn btn--save btn--hover" onClick={handleClick}>
           {isBookmarked ? (
-            <FaRegBookmark size="2rem" />
+            <FaBookmark size="2rem" color="#4f45e5" />
           ) : (
-            <FaBookmark size="2rem" />
+            <FaRegBookmark size="2rem" />
           )}
         </button>
       </div>

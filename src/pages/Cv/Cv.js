@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHttpClient } from "../../hooks/useHttpClient";
 import { useParams } from "react-router-dom";
-import ErrorModal from "../../components/Modal/ErrorModal";
+// import ErrorModal from "../../components/Modal/ErrorModal";
 import AddCVModal from "../../components/Modal/AddCVModal";
 import CvList from "./CvList";
 import { AuthContext } from "../../context/auth";
@@ -12,7 +12,11 @@ const Cv = () => {
   const { currentUser } = useContext(AuthContext);
   const [loadedCvs, setLoadedCvs] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
-  const { isLoading, sendReq, error, clearError } = useHttpClient();
+  const {
+    isLoading,
+    sendReq,
+    // error, clearError
+  } = useHttpClient();
   useEffect(() => {
     const fetchCvs = async () => {
       try {
@@ -30,7 +34,7 @@ const Cv = () => {
     fetchCvs();
   }, [sendReq, userId, currentUser, isAdded]);
 
-  // Handle register recruiter
+  // Handle add cv recruiter
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const showAddCVHandler = () => {
@@ -48,7 +52,7 @@ const Cv = () => {
 
   return (
     <>
-      <ErrorModal error={error} onClose={clearError} />
+      {/* <ErrorModal error={error} onClose={clearError} /> */}
       <div className="container tags">
         <AddCVModal
           onClose={() => setShowConfirmModal(false)}
