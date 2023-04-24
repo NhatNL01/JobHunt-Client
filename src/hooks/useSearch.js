@@ -16,7 +16,7 @@ const useSearch = () => {
       try {
         const data = await list({ search: value || undefined, type: type });
         setSearchResults(data);
-        history.push(`/search/?query=${value}`);
+        history.push(`/search/?search=${value}&&type=${type}`);
       } catch (err) {
         console.log(err);
       }

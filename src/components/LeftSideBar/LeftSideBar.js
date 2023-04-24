@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/auth";
 import { FcHome } from "@react-icons/all-files/fc/FcHome";
 import { FcReading } from "@react-icons/all-files/fc/FcReading";
 import { FaTags } from "@react-icons/all-files/fa/FaTags";
+import { FaRegBuilding } from "@react-icons/all-files/fa/FaRegBuilding";
 import { FcIdea } from "@react-icons/all-files/fc/FcIdea";
 import { FaBlackTie } from "@react-icons/all-files/fa/FaBlackTie";
 import { GrContact } from "@react-icons/all-files/gr/GrContact";
@@ -45,6 +46,14 @@ const LeftSideBar = () => {
                   <FaTags />
                 </i>
                 Tags
+              </NavLink>
+            </li>
+            <li className="list__item hvr-bg-lt">
+              <NavLink to="/companies" exact>
+                <i>
+                  <FaRegBuilding />
+                </i>
+                Company
               </NavLink>
             </li>
             <li className="list__item hvr-bg-lt">

@@ -4,22 +4,21 @@ import useHttpClient from "../../hooks/useHttpClient";
 import { AuthContext } from "../../context/auth";
 import ListImage from "../../components/ListImage/ListImage";
 
-import "./HrAdmin.scss";
+import "./MyAppliction.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import SyntaxHighlight from "../../components/SyntaxHighlight/SyntaxHighlight";
 
-const Application = () => {
+const MyApplication = () => {
   const [loadedApplications, setLoadedApplications] = useState([]);
-  const [reLoad, setReload] = useState(false);
-  const { jobId } = useParams();
+  const { userId } = useParams();
   const { currentUser } = useContext(AuthContext);
   const { sendReq } = useHttpClient();
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         const responseData = await sendReq(
-          `${process.env.REACT_APP_BASE_URL}/applications/job/${jobId}`,
+          `${process.env.REACT_APP_BASE_URL}/applications/user/${userId}`,
           "GET",
           null,
           {
@@ -30,34 +29,7 @@ const Application = () => {
       } catch (err) {}
     };
     fetchApplications();
-  }, [sendReq, currentUser, reLoad, jobId]);
-
-  const handleUpdateApplicationStatus = async (id, status) => {
-    try {
-      await sendReq(
-        `${process.env.REACT_APP_BASE_URL}/applications/${id}`,
-        "PUT",
-        JSON.stringify({
-          status: status,
-        }),
-        {
-          Authorization: `Bearer ${currentUser.token}`,
-          "Content-Type": "application/json",
-        }
-      );
-      setReload(!reLoad);
-      // history.push("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleApproveApplication = async (id) => {
-    handleUpdateApplicationStatus(id, "Approved");
-  };
-  const handleRejectApplication = async (id) => {
-    handleUpdateApplicationStatus(id, "Rejected");
-  };
+  }, [sendReq, currentUser, userId]);
 
   const columns = [
     { field: "id", headerName: "Application ID", width: 155 },
@@ -70,14 +42,20 @@ const Application = () => {
       },
     },
     {
+      field: "job",
+      headerName: "Job",
+      width: 160,
+      renderCell: (params) => {
+        return <div className="userListField">{params.row.job.title}</div>;
+      },
+    },
+    {
       field: "cv",
       headerName: "CV",
       width: 100,
       renderCell: (params) => {
         return (
           <div className="userListField">
-            {/* <img src={params.row.cv.image} alt="cv" /> */}
-            {/* {params.row.cv.name} */}
             <ListImage images={[params.row.cv.image]} />
           </div>
         );
@@ -123,33 +101,6 @@ const Application = () => {
       headerName: "Date",
       width: 200,
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 220,
-      renderCell: (params) => {
-        return (
-          <>
-            {params.row.status === "Pending" ? (
-              <>
-                <button
-                  onClick={() => handleApproveApplication(params.row.id)}
-                  className={`editButton approved`}>
-                  Approve
-                </button>
-                <button
-                  onClick={() => handleRejectApplication(params.row.id)}
-                  className={`editButton rejected`}>
-                  Reject
-                </button>
-              </>
-            ) : (
-              <div>No actions</div>
-            )}
-          </>
-        );
-      },
-    },
   ];
   return (
     <>
@@ -169,4 +120,4 @@ const Application = () => {
   );
 };
 
-export default Application;
+export default MyApplication;

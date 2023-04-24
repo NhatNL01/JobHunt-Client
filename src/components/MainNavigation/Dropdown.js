@@ -49,15 +49,30 @@ export const Dropdown = ({ showMenu, currentUser, handleLogout }) => {
             Edit Profile
           </button>
         </li> */}
-        <li className="list__item hvr-bg-lt">
-          <button
-            className="btn dropdown__btn"
-            onMouseDown={() =>
-              handleRedirect(`/cvs/${currentUser && currentUser.userId}`)
-            }>
-            My CV
-          </button>
-        </li>
+        {currentUser.role === "user" && (
+          <li className="list__item hvr-bg-lt">
+            <button
+              className="btn dropdown__btn"
+              onMouseDown={() =>
+                handleRedirect(`/cvs/${currentUser && currentUser.userId}`)
+              }>
+              My CV
+            </button>
+          </li>
+        )}
+        {currentUser.role === "user" && (
+          <li className="list__item hvr-bg-lt">
+            <button
+              className="btn dropdown__btn"
+              onMouseDown={() =>
+                handleRedirect(
+                  `/applications/${currentUser && currentUser.userId}`
+                )
+              }>
+              My Appliction
+            </button>
+          </li>
+        )}
         {currentUser?.role === "recruiter" ? (
           <li className="list__item hvr-bg-lt">
             <button

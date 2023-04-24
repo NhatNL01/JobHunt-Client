@@ -16,10 +16,10 @@ const RightSideBar = ({ tags, isLoading }) => {
       ) : (
         <>
           {newsTag && <MiniPostList tag="news" posts={newsTag.posts} />}
+          {jobTag && <MiniPostList tag="job" posts={jobTag.posts} />}
           {discussTag && (
             <MiniPostList tag="discuss" posts={discussTag.posts} />
           )}
-          {jobTag && <MiniPostList tag="job" posts={jobTag.posts} />}
           {webdevTag && <MiniPostList tag="webdev" posts={webdevTag.posts} />}
         </>
       )}

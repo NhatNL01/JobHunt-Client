@@ -20,6 +20,9 @@ import Footer from "./components/Footer/Footer";
 import { AuthContext } from "./context/auth";
 import { BrowserRouter as Router } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import ComapnyList from "./pages/Companies/Companies";
+import CompanyProfile from "./pages/CompanyProfile/CompanyProfile";
+import MyApplication from "./pages/MyApplication/MyAppication";
 
 const MainRouter = ({ token }) => {
   let routes;
@@ -48,6 +51,12 @@ const MainRouter = ({ token }) => {
           <Route path="/users/:userId/readinglist" exact>
             <ReadingList />
           </Route>
+          <Route path="/companies" exact>
+            <ComapnyList />
+          </Route>
+          <Route path="/companies/:companyId" exact>
+            <CompanyProfile />
+          </Route>
           <Route path="/users/:userId/notifications" exact>
             <Notifications />
           </Route>
@@ -62,6 +71,9 @@ const MainRouter = ({ token }) => {
           </Route>
           <Route path="/cvs/:userId" exact>
             <Cv />
+          </Route>
+          <Route path="/applications/:userId" exact>
+            <MyApplication />
           </Route>
           <Route path="/search/" exact>
             <SearchResults />
@@ -110,6 +122,12 @@ const MainRouter = ({ token }) => {
           </Route>
           <Route path="/posts/:titleURL/:postId" exact>
             <Post />
+          </Route>
+          <Route path="/companies" exact>
+            <ComapnyList />
+          </Route>
+          <Route path="/companies/:companyId" exact>
+            <CompanyProfile />
           </Route>
           <Redirect to="/auth" />
         </Switch>

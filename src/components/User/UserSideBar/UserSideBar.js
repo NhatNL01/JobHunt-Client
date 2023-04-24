@@ -1,14 +1,14 @@
-import React from 'react';
-import './UserSideBar.css';
+import React from "react";
+import "./UserSideBar.css";
 
 export const UserSideBar = ({ user }) => {
   return (
-    <div className='user__side'>
-      <div className='user__skills'>
+    <div className="user__side">
+      <div className="user__skills">
         <h4>Skills/languages</h4>
         <p>{user.skills}</p>
       </div>
-      <div className='user__stats'>
+      <div className="user__stats">
         <h4>Stats</h4>
 
         <ul>

@@ -118,10 +118,10 @@ const Auth = ({ newUser }) => {
       <div className="container container-auth">
         <Welcome />
         <div className="auth__social">
-          <GLogin onLogin={handleGoogleAuth} />
-          <GHLogin onLogin={handleGithubAuth} />
+          {/* <GLogin onLogin={handleGoogleAuth} /> */}
+          {/* <GHLogin onLogin={handleGithubAuth} />
           <FBLogin onLogin={handleFBAuth} />
-          <TwitterLogin />
+          <TwitterLogin /> */}
         </div>
 
         <form className="form__auth">

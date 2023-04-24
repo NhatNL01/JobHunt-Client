@@ -32,6 +32,7 @@ const useAuth = () => {
         email: user.email,
         name: user.name,
         tags: user.tags,
+        company: user.company,
         expiration: tokenExpirationDate.toISOString(),
       })
     );
