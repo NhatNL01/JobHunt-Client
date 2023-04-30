@@ -2,16 +2,12 @@ import React, { useContext, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth";
 import { useHttpClient } from "../../hooks/useHttpClient";
-import GLogin from "../../components/Auth/GLogin";
-import GHLogin from "../../components/Auth/GHLogin";
 import useForm from "../../hooks/useForm";
 import { loginForm, signupForm } from "../../utils/formConfig";
 import { appendData } from "../../utils";
 import Welcome from "../../components/Auth/Welcome";
 import "./Auth.css";
 import ErrorModal from "../../components/Modal/ErrorModal";
-import FBLogin from "../../components/Auth/FBLogin";
-import TwitterLogin from "../../components/Auth/TwitterLogin";
 
 const Auth = ({ newUser }) => {
   const { renderFormInputs, renderFormValues, isFormValid, setForm } =
@@ -117,16 +113,8 @@ const Auth = ({ newUser }) => {
       <ErrorModal error={error} onClose={clearError} />
       <div className="container container-auth">
         <Welcome />
-        <div className="auth__social">
-          {/* <GLogin onLogin={handleGoogleAuth} /> */}
-          {/* <GHLogin onLogin={handleGithubAuth} />
-          <FBLogin onLogin={handleFBAuth} />
-          <TwitterLogin /> */}
-        </div>
-
         <form className="form__auth">
           <div className="form__options">
-            <p>Or</p>
             <h2>
               {newUser
                 ? "Create a New Account"

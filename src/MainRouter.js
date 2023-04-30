@@ -20,7 +20,7 @@ import Footer from "./components/Footer/Footer";
 import { AuthContext } from "./context/auth";
 import { BrowserRouter as Router } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-import ComapnyList from "./pages/Companies/Companies";
+import CompanyList from "./pages/Companies/Companies";
 import CompanyProfile from "./pages/CompanyProfile/CompanyProfile";
 import MyApplication from "./pages/MyApplication/MyAppication";
 
@@ -52,7 +52,7 @@ const MainRouter = ({ token }) => {
             <ReadingList />
           </Route>
           <Route path="/companies" exact>
-            <ComapnyList />
+            <CompanyList />
           </Route>
           <Route path="/companies/:companyId" exact>
             <CompanyProfile />
@@ -124,7 +124,7 @@ const MainRouter = ({ token }) => {
             <Post />
           </Route>
           <Route path="/companies" exact>
-            <ComapnyList />
+            <CompanyList />
           </Route>
           <Route path="/companies/:companyId" exact>
             <CompanyProfile />

@@ -29,9 +29,9 @@ const HrAdmin = () => {
     fetchPosts();
   }, [sendReq, currentUser]);
 
-  const handleDelete = (id) => {
-    // setLoadedPosts(data.filter((item) => item.id !== id));
-  };
+  // const handleDelete = (id) => {
+  //   setLoadedPosts(data.filter((item) => item.id !== id));
+  // };
 
   const columns = [
     { field: "id", headerName: "Job ID", width: 265 },
@@ -52,7 +52,7 @@ const HrAdmin = () => {
     {
       field: "date",
       headerName: "Date",
-      width: 250,
+      width: 350,
     },
     {
       field: "action",
@@ -64,10 +64,10 @@ const HrAdmin = () => {
             <Link to={`/hradmin/applications/${params.row.id}`}>
               <button className="editButton ">Detail</button>
             </Link>
-            <DeleteOutline
+            {/* <DeleteOutline
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
-            />
+            /> */}
           </>
         );
       },

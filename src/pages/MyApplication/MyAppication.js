@@ -32,7 +32,7 @@ const MyApplication = () => {
   }, [sendReq, currentUser, userId]);
 
   const columns = [
-    { field: "id", headerName: "Application ID", width: 155 },
+    // { field: "id", headerName: "Application ID", width: 155 },
     {
       field: "author",
       headerName: "Author",
@@ -56,7 +56,7 @@ const MyApplication = () => {
       renderCell: (params) => {
         return (
           <div className="userListField">
-            <ListImage images={[params.row.cv.image]} />
+            <ListImage images={[params.row.cv?.image]} />
           </div>
         );
       },
@@ -99,7 +99,7 @@ const MyApplication = () => {
     {
       field: "date",
       headerName: "Date",
-      width: 200,
+      width: 400,
     },
   ];
   return (

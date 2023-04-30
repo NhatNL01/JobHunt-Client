@@ -7,7 +7,7 @@ import { FaPhoneAlt } from "@react-icons/all-files/fa/FaPhoneAlt";
 import { FaRegUserCircle } from "@react-icons/all-files/fa/FaRegUserCircle";
 import { FaCalendarPlus } from "@react-icons/all-files/fa/FaCalendarPlus";
 
-const ComapnyList = (props) => {
+const CompanyList = (props) => {
   return (
     <div className="container container-posts">
       {props.isLoading && <SkeletonPostList type={!props.cover && "mini"} />}
@@ -62,4 +62,4 @@ const ComapnyList = (props) => {
   );
 };
 
-export default ComapnyList;
+export default CompanyList;

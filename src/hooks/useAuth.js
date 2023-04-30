@@ -44,7 +44,6 @@ const useAuth = () => {
     setUser(null);
     setTokenExpirationDate(null);
     localStorage.removeItem("userData");
-    //GET request to backend for twitter since it uses passport
     sendReq(
       `${process.env.REACT_APP_BASE_URL}/users/auth/twitter/logout`,
       "GET",

@@ -56,7 +56,7 @@ const LeftSideBar = () => {
                 Company
               </NavLink>
             </li>
-            <li className="list__item hvr-bg-lt">
+            {/* <li className="list__item hvr-bg-lt">
               <NavLink to="/FAQ" exact>
                 <i>
                   <FcIdea />
@@ -79,7 +79,7 @@ const LeftSideBar = () => {
                 </i>
                 Contact
               </NavLink>
-            </li>
+            </li> */}
           </ul>
           <div className="sidebar-tags">
             {currentUser && currentUser.tags && currentUser.tags.length > 0 && (

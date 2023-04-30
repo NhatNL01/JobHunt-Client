@@ -24,10 +24,10 @@ const PreviewReactions = ({ userId, post, showModal, setShowModal }) => {
   const effect = isBookmarked ? "negative" : "positive";
 
   const postLengthRef = useRef();
-  useEffect(() => {
-    const span = postLengthRef.current;
-    span.innerText = readingTime(body);
-  }, [body]);
+  // useEffect(() => {
+  //   const span = postLengthRef.current;
+  //   span.innerText = readingTime(body);
+  // }, [body]);
 
   const handleClick = () => {
     !userId

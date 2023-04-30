@@ -1,9 +1,9 @@
-import { RiNotificationLine } from '@react-icons/all-files/ri/RiNotificationLine';
-import React, { useState, useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
-import Avatar from '../../Avatar/Avatar';
-import { Dropdown } from '../Dropdown';
-import { useHistory } from 'react-router-dom';
+import { RiNotificationLine } from "@react-icons/all-files/ri/RiNotificationLine";
+import React, { useState, useCallback } from "react";
+import { NavLink } from "react-router-dom";
+import Avatar from "../../Avatar/Avatar";
+import { Dropdown } from "../Dropdown";
+import { useHistory } from "react-router-dom";
 
 export const LoggedInNavLinks = ({
   unreadNotifications,
@@ -26,28 +26,27 @@ export const LoggedInNavLinks = ({
 
   const handleLogout = () => {
     setShowMenu(false);
+    window.location.reload();
     logout();
   };
   return (
     <React.Fragment>
-      <li className='list__item list__item--mobile item--create'>
-        <NavLink className='create-link' to='/posts/new' exact>
+      <li className="list__item list__item--mobile item--create">
+        <NavLink className="create-link" to="/posts/new" exact>
           Create Post
         </NavLink>
       </li>
       <li
-        className='list__item list__item--notifs hvr-bg-lt'
-        onClick={handleClick}
-      >
+        className="list__item list__item--notifs hvr-bg-lt"
+        onClick={handleClick}>
         <NavLink
-          className='link'
+          className="link"
           to={`/users/${currentUser && currentUser.userId}/notifications`}
-          exact
-        >
-          <div className='link--notifs-icon'>
-            <RiNotificationLine size='2.5rem' />
+          exact>
+          <div className="link--notifs-icon">
+            <RiNotificationLine size="2.5rem" />
             {unreadNotifications && unreadNotifications.length > 0 && (
-              <div className='notif__counter'>{unreadNotifications.length}</div>
+              <div className="notif__counter">{unreadNotifications.length}</div>
             )}
           </div>
         </NavLink>
@@ -55,10 +54,9 @@ export const LoggedInNavLinks = ({
 
       <li>
         <button
-          className='btn nav__btn'
+          className="btn nav__btn"
           onClick={handleDropdown}
-          onBlur={() => setShowMenu(false)}
-        >
+          onBlur={() => setShowMenu(false)}>
           <Avatar src={currentUser && currentUser.avatar} />
         </button>
       </li>
