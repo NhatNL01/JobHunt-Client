@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import { useHttpClient } from '../../hooks/useHttpClient';
-import { AuthContext } from '../../context/auth';
-import useForm from '../../hooks/useForm';
-import { editPostForm, prefillEditPostForm } from '../../utils/formConfig';
-import { appendData } from '../../utils';
-import ErrorModal from '../../components/Modal/ErrorModal';
-import SkeletonForm from '../../components/Skeleton/SkeletonForm';
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useHttpClient } from "../../hooks/useHttpClient";
+import { AuthContext } from "../../context/auth";
+import useForm from "../../hooks/useForm";
+import { editPostForm, prefillEditPostForm } from "../../utils/formConfig";
+import { appendData } from "../../utils";
+import ErrorModal from "../../components/Modal/ErrorModal";
+import SkeletonForm from "../../components/Skeleton/SkeletonForm";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
 
 const EditPost = () => {
   const { sendReq, isLoading, error, clearError } = useHttpClient();
@@ -27,7 +28,7 @@ const EditPost = () => {
         );
         prefillEditPostForm(responseData.post);
         if (currentUser.userId !== responseData.post.author.id) {
-          history.push('/');
+          history.push("/");
         }
         setLoadedPost(responseData.post);
         await setForm(editPostForm);
@@ -39,11 +40,11 @@ const EditPost = () => {
   const postSubmitHandle = async (evt) => {
     evt.preventDefault();
     const formData = appendData(formValues);
-    formData.append('author', currentUser.userId);
+    formData.append("author", currentUser.userId);
     try {
       await sendReq(
         `${process.env.REACT_APP_BASE_URL}/posts/${titleURL}/${postId}`,
-        'PATCH',
+        "PATCH",
         formData,
         {
           Authorization: `Bearer ${currentUser.token}`,
@@ -57,23 +58,23 @@ const EditPost = () => {
     <>
       <ErrorModal error={error} onClose={clearError} />
 
-      <div className='container-edit-page'>
-        {isLoading ? (
+      <div className="container-edit-page">
+        {/* {isLoading ? (
           <SkeletonForm />
-        ) : (
-          <form className='form form__edit'>
-            <h2>Edit Post</h2>
-            {!isLoading && loadedPost.image && loadedPost.body && formInputs}
-            <button
-              type='button'
-              onClick={postSubmitHandle}
-              className='btn btn-submit'
-              disabled={!isFormValid()}
-            >
-              Update Post
-            </button>
-          </form>
-        )}
+        ) : ( */}
+        <form className="form form__edit">
+          <h2>Edit Post</h2>
+          {!isLoading && loadedPost.image && loadedPost.body && formInputs}
+          <button
+            type="button"
+            onClick={postSubmitHandle}
+            className="btn btn-submit"
+            disabled={!isFormValid() || isLoading}>
+            {isLoading && <LoadingIcon />}
+            Update Post
+          </button>
+        </form>
+        {/* )} */}
       </div>
     </>
   );

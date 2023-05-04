@@ -7,6 +7,7 @@ import { newPostForm, newJobPostForm } from "../../utils/formConfig";
 import { appendData, renderRepeatedSkeletons } from "../../utils";
 import ErrorModal from "../../components/Modal/ErrorModal";
 import SkeletonElement from "../../components/Skeleton/SkeletonElement";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
 
 const NewPost = () => {
   const auth = useContext(AuthContext);
@@ -41,22 +42,20 @@ const NewPost = () => {
   return (
     <>
       <ErrorModal error={error} onClose={clearError} />
-      {isLoading ? (
-        renderRepeatedSkeletons(<SkeletonElement type="text" />, 20)
-      ) : (
-        <div className="container-create-page">
-          <form className="form form__create">
-            <h2>Create a new post</h2>
-            {formInputs}
-            <button
-              onClick={postSubmitHandle}
-              className="btn"
-              disabled={!isFormValid()}>
-              Submit <span>&rarr;</span>
-            </button>
-          </form>
-        </div>
-      )}
+
+      <div className="container-create-page">
+        <form className="form form__create">
+          <h2>Create a new post</h2>
+          {formInputs}
+          <button
+            onClick={postSubmitHandle}
+            className="btn"
+            disabled={!isFormValid() || isLoading}>
+            {isLoading && <LoadingIcon />}
+            Submit <span>&rarr;</span>
+          </button>
+        </form>
+      </div>
     </>
   );
 };

@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { useHttpClient } from '../../hooks/useHttpClient';
-import { AuthContext } from '../../context/auth';
-import useForm from '../../hooks/useForm';
-import ErrorModal from '../../components/Modal/ErrorModal';
-import SkeletonForm from '../../components/Skeleton/SkeletonForm';
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { useHttpClient } from "../../hooks/useHttpClient";
+import { AuthContext } from "../../context/auth";
+import useForm from "../../hooks/useForm";
+import ErrorModal from "../../components/Modal/ErrorModal";
+import SkeletonForm from "../../components/Skeleton/SkeletonForm";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
 
 import {
   editProfileForm,
   prefillEditProfileForm,
-} from '../../utils/formConfig';
-import { appendData } from '../../utils';
+} from "../../utils/formConfig";
+import { appendData } from "../../utils";
 
 const EditUserProfile = () => {
   const [user, setUser] = useState({});
@@ -47,7 +48,7 @@ const EditUserProfile = () => {
     try {
       const responseData = await sendReq(
         `${process.env.REACT_APP_BASE_URL}/users/${userId}`,
-        'PATCH',
+        "PATCH",
         formData,
         {
           Authorization: `Bearer ${currentUser.token}`,
@@ -63,18 +64,19 @@ const EditUserProfile = () => {
   return (
     <>
       <ErrorModal error={error} onClose={clearError} />
-      <div className='container-edit-page'>
-        {isLoading ? (
+      <div className="container-edit-page">
+        {/* {isLoading ? (
           <SkeletonForm />
-        ) : (
-          <form className='form form__edit' onSubmit={infoSubmitHandle}>
-            <h2>Edit Profile</h2>
-            {!isLoading && user.avatar && formInputs}
-            <button onClick={infoSubmitHandle} className='btn btn-submit'>
-              Update Profile
-            </button>
-          </form>
-        )}
+        ) : ( */}
+        <form className="form form__edit" onSubmit={infoSubmitHandle}>
+          <h2>Edit Profile</h2>
+          {!isLoading && user.avatar && formInputs}
+          <button onClick={infoSubmitHandle} className="btn btn-submit">
+            {isLoading && <LoadingIcon />}
+            Update Profile
+          </button>
+        </form>
+        {/* )} */}
       </div>
     </>
   );

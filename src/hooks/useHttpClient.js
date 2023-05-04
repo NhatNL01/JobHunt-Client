@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from "react";
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +14,8 @@ export const useHttpClient = () => {
   //wrapped sendReq in a 'useCallback' hook to prevent it from being re-created every render
   //and avoid infinite loops
   const sendReq = useCallback(
-    async (url, method = 'GET', body = null, headers = {}, credentials) => {
-      if (method === 'GET') {
+    async (url, method = "GET", body = null, headers = {}, credentials) => {
+      if (true) {
         setIsLoading(true);
       }
       const httpAbortCtrl = new AbortController();
@@ -48,7 +48,7 @@ export const useHttpClient = () => {
         setIsLoading(false);
         return responseData; //for our component
       } catch (err) {
-        setError(err.message || 'Something went wrong...');
+        setError(err.message || "Something went wrong...");
         setIsLoading(false);
         throw err;
       }

@@ -8,6 +8,8 @@ import { appendData } from "../../utils";
 import Welcome from "../../components/Auth/Welcome";
 import "./Auth.css";
 import ErrorModal from "../../components/Modal/ErrorModal";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
+import { FaSpinner } from "@react-icons/all-files/fa/FaSpinner";
 
 const Auth = ({ newUser }) => {
   const { renderFormInputs, renderFormValues, isFormValid, setForm } =
@@ -27,60 +29,7 @@ const Auth = ({ newUser }) => {
   const { login } = useContext(AuthContext);
   const history = useHistory();
 
-  const { sendReq, error, clearError } = useHttpClient();
-
-  //handle google auth
-  const handleGoogleAuth = async (googleData) => {
-    //getting tokenID from GLogin
-    const responseData = await sendReq(
-      `${process.env.REACT_APP_BASE_URL}/users/auth/google`,
-      "POST",
-      JSON.stringify({
-        tokenId: googleData.tokenId,
-      }),
-      {
-        "Content-Type": "application/json", //inform backend the type of data being sent
-      }
-    );
-    let { user } = responseData;
-    user = { ...user, token: googleData.tokenId };
-    login(user); //log the user in
-    history.push("/");
-  };
-
-  const handleGithubAuth = async (githubData) => {
-    const { code } = githubData;
-    const responseData = await sendReq(
-      `${process.env.REACT_APP_BASE_URL}/users/auth/github`,
-      "POST",
-      JSON.stringify({ code }),
-      {
-        "Content-Type": "application/json", //inform backend the type of data being sent
-      }
-    );
-    let { user } = responseData;
-    user = { ...user, token: githubData.code };
-    login(user); //log the user in
-    history.push("/");
-  };
-
-  const handleFBAuth = async (fbData) => {
-    const responseData = await sendReq(
-      `${process.env.REACT_APP_BASE_URL}/users/auth/facebook`,
-      "POST",
-      JSON.stringify({
-        accessToken: fbData.accessToken,
-        userId: fbData.userID,
-      }),
-      {
-        "Content-Type": "application/json", //inform backend the type of data being sent
-      }
-    );
-    let { user } = responseData;
-    user = { ...user, token: fbData.accessToken };
-    login(user); //log the user in
-    history.push("/");
-  };
+  const { sendReq, error, clearError, isLoading } = useHttpClient();
 
   const handleAuthSubmit = async (evt) => {
     evt.preventDefault();
@@ -125,7 +74,8 @@ const Auth = ({ newUser }) => {
             <button
               onClick={handleAuthSubmit}
               className="btn btn__auth btn__auth--mode"
-              disabled={!isFormValid()}>
+              disabled={!isFormValid() || isLoading}>
+              {isLoading && <LoadingIcon />}
               {newUser ? "Create account" : "Login"}
             </button>
             <Link

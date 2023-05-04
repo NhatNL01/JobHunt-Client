@@ -2,13 +2,14 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../context/auth";
 import useHttpClient from "../../hooks/useHttpClient";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
 
 export const DeleteCv = ({ cvId, setShowModal }) => {
   const history = useHistory();
   const auth = useContext(AuthContext);
   const { currentUser } = auth;
   const currentUserId = currentUser && currentUser.userId;
-  const { sendReq } = useHttpClient();
+  const { sendReq, isLoading } = useHttpClient();
 
   const handleDeleteCv = async () => {
     const reqData = { author: currentUserId };
@@ -28,6 +29,7 @@ export const DeleteCv = ({ cvId, setShowModal }) => {
   return (
     <>
       <button className="btn btn-tag-follow bg-delete" onClick={handleDeleteCv}>
+        {isLoading && <LoadingIcon />}
         Delete
       </button>
     </>

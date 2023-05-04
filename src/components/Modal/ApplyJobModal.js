@@ -8,11 +8,12 @@ import { newApplicationForm } from "../../utils/formConfig";
 // import { appendData } from "../../utils";
 import { useHttpClient } from "../../hooks/useHttpClient";
 import ErrorModal from "../../components/Modal/ErrorModal";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
 
 const ApplyJobModal = (props) => {
   const auth = useContext(AuthContext);
   const { currentUser } = auth;
-  const { sendReq, error, clearError } = useHttpClient();
+  const { sendReq, error, clearError, isLoading } = useHttpClient();
 
   const { renderFormInputs, renderFormValues, isFormValid } =
     useForm(newApplicationForm);
@@ -73,13 +74,14 @@ const ApplyJobModal = (props) => {
             </button> */}
               <button
                 onClick={postSubmitHandle}
-                disabled={!isFormValid()}
+                disabled={!isFormValid() || isLoading}
                 className="btn btn--yes"
                 style={
                   !isFormValid()
                     ? { backgroundColor: "#ccc", cursor: "default" }
                     : {}
                 }>
+                {isLoading && <LoadingIcon />}
                 Apply <span>&rarr;</span>
               </button>
             </form>
