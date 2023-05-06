@@ -96,7 +96,6 @@ const CompanyProfile = () => {
     }
   };
 
-  console.log(loadedPosts);
   return (
     <>
       <ErrorModal error={error} onClose={clearError} />

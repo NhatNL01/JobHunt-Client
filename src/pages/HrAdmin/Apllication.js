@@ -66,7 +66,7 @@ const Application = () => {
       headerName: "Author",
       width: 160,
       renderCell: (params) => {
-        return <div className="userListField">{params.row.author.name}</div>;
+        return <div className="userListField">{params.row.author?.name}</div>;
       },
     },
     {
@@ -78,7 +78,7 @@ const Application = () => {
           <div className="userListField">
             {/* <img src={params.row.cv.image} alt="cv" /> */}
             {/* {params.row.cv.name} */}
-            <ListImage images={[params.row.cv.image]} />
+            <ListImage images={[params.row.cv?.image]} />
           </div>
         );
       },

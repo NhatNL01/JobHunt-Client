@@ -1,0 +1,46 @@
+.sidebarComponent {
+  flex: 1;
+  max-width: 290px;
+  height: calc(100vh);
+  background-color: #292F42;
+  position: sticky;
+  top: 50px;
+
+  .wrapper {
+    padding: 20px;
+    color: rgb(191, 191, 191);
+
+    .menu {
+      margin-bottom: 10px;
+
+      h3 {
+        font-size: 16px;
+        color: rgb(224, 224, 224);
+        font-weight: 600;
+      }
+
+      ul {
+        list-style: none;
+        padding: 5px;
+
+        li {
+          padding: 5px;
+          cursor: pointer;
+          display: flex;
+          border-radius: 10px;
+          gap: 5px;
+          transition: 0.1s ease-in-out;
+
+          .icon {
+            font-size: 20px;
+          }
+
+          &.active,
+          &:hover {
+            background-color: rgb(45, 42, 54);
+          }
+        }
+      }
+    }
+  }
+}

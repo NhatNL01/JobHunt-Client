@@ -23,75 +23,127 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import CompanyList from "./pages/Companies/Companies";
 import CompanyProfile from "./pages/CompanyProfile/CompanyProfile";
 import MyApplication from "./pages/MyApplication/MyAppication";
+import Main from "./components/ChatComponent/Main";
+import AdminPage from "./pages/admin/AdminPage";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminShowUsersList from "./pages/admin/AdminShowUsersList";
+import AdminShowPostsList from "./pages/admin/AdminShowPostsList";
+import AdminShowConpanysList from "./pages/admin/AdminShowConpaniesList";
+import AdminShowTagsList from "./pages/admin/AdminShowTagsList";
 
-const MainRouter = ({ token }) => {
+const MainRouter = () => {
   let routes;
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   if (isLoggedIn) {
-    routes = (
-      <>
-        <MainNavigation />
+    if (currentUser?.role === "admin") {
+      routes = (
+        <>
+          <Switch>
+            <Route path="/auth" exact>
+              <Auth newUser={false} />
+            </Route>
+            <Route path="/" exact>
+              <AdminPage>
+                <AdminDashboard />
+              </AdminPage>
+            </Route>
+            <Route path="/users" exact>
+              <AdminPage>
+                <AdminShowUsersList />
+              </AdminPage>
+            </Route>
+            <Route path="/posts" exact>
+              <AdminPage>
+                <AdminShowPostsList />
+              </AdminPage>
+            </Route>
+            <Route path="/companies" exact>
+              <AdminPage>
+                <AdminShowConpanysList />
+              </AdminPage>
+            </Route>
+            <Route path="/tags" exact>
+              <AdminPage>
+                <AdminShowTagsList />
+              </AdminPage>
+            </Route>
 
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/hradmin" exact>
-            <HrAdmin />
-          </Route>
-          <Route path="/hradmin/applications/:jobId" exact>
-            <Application />
-          </Route>
-          <Route path="/users/:userId" exact>
-            <UserProfile />
-          </Route>
-          <Route path="/users/:userId/edit" exact>
-            <EditUserProfile />
-          </Route>
-          <Route path="/users/:userId/readinglist" exact>
-            <ReadingList />
-          </Route>
-          <Route path="/companies" exact>
-            <CompanyList />
-          </Route>
-          <Route path="/companies/:companyId" exact>
-            <CompanyProfile />
-          </Route>
-          <Route path="/users/:userId/notifications" exact>
-            <Notifications />
-          </Route>
-          <Route path="/auth" exact>
-            <Auth newUser={false} />
-          </Route>
-          <Route path="/tags" exact>
-            <Tags />
-          </Route>
-          <Route path="/tags/:tagName" exact>
-            <Tag />
-          </Route>
-          <Route path="/cvs/:userId" exact>
-            <Cv />
-          </Route>
-          <Route path="/applications/:userId" exact>
-            <MyApplication />
-          </Route>
-          <Route path="/search/" exact>
-            <SearchResults />
-          </Route>
-          <Route path="/posts/new" exact>
-            <NewPost />
-          </Route>
-          <Route path="/posts/:titleURL/:postId" exact>
-            <Post />
-          </Route>
-          <Route path="/posts/:titleURL/:postId/edit" exact>
-            <EditPost />
-          </Route>
-          <Redirect to="/auth" />
-        </Switch>
-        <Footer />
-      </>
-    );
+            <Redirect to="/auth" />
+          </Switch>
+        </>
+      );
+    } else {
+      routes = (
+        <>
+          <MainNavigation />
+
+          <Switch>
+            <Route path="/chat" exact>
+              <Main />
+            </Route>
+
+            <Route path="/" exact>
+              <Home />
+            </Route>
+
+            <Route path="/hradmin" exact>
+              <HrAdmin />
+            </Route>
+            <Route path="/hradmin/applications/:jobId" exact>
+              <Application />
+            </Route>
+            <Route path="/users/:userId" exact>
+              <UserProfile />
+            </Route>
+            <Route path="/users/:userId/edit" exact>
+              <EditUserProfile />
+            </Route>
+            <Route path="/users/:userId/readinglist" exact>
+              <ReadingList />
+            </Route>
+            <Route path="/companies" exact>
+              <CompanyList />
+            </Route>
+            <Route path="/companies/:companyId" exact>
+              <CompanyProfile />
+            </Route>
+            <Route path="/users/:userId/notifications" exact>
+              <Notifications />
+            </Route>
+            <Route path="/auth" exact>
+              <Auth newUser={false} />
+            </Route>
+            <Route path="/tags" exact>
+              <Tags />
+            </Route>
+            <Route path="/tags/:tagName" exact>
+              <Tag />
+            </Route>
+            <Route path="/cvs/:userId" exact>
+              <Cv />
+            </Route>
+            <Route path="/applications/:userId" exact>
+              <MyApplication />
+            </Route>
+            <Route path="/search/" exact>
+              <SearchResults />
+            </Route>
+            <Route path="/posts/new" exact>
+              <NewPost />
+            </Route>
+            <Route path="/posts/:titleURL/:postId" exact>
+              <Post />
+            </Route>
+            <Route path="/posts/:titleURL/:postId/edit" exact>
+              <EditPost />
+            </Route>
+            <Redirect to="/auth" />
+          </Switch>
+          <Footer />
+        </>
+      );
+    }
   } else {
     routes = (
       <>

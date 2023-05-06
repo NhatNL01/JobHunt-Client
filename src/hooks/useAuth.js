@@ -39,9 +39,9 @@ const useAuth = () => {
   }, []);
 
   const logout = useCallback(() => {
-    setToken(null);
+    setToken(false);
     setUserId(null);
-    setUser(null);
+    setUser({});
     setTokenExpirationDate(null);
     localStorage.removeItem("userData");
     sendReq(

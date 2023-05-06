@@ -1,0 +1,24 @@
+body {
+    padding-block-start: 0px !important;
+}
+
+.containerApp {
+    display: flex;
+    justify-content: space-between;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.homePage {
+    max-width: 80%;
+    flex: 4;
+
+    .widgets {
+        display: flex;
+        margin: 20px;
+
+    }
+}

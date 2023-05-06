@@ -26,7 +26,7 @@ export const LoggedInNavLinks = ({
 
   const handleLogout = () => {
     setShowMenu(false);
-    window.location.reload();
+    // window.location.reload();
     logout();
   };
   return (
