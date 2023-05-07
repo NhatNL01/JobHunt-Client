@@ -116,21 +116,21 @@ const AdminShowUsersList = () => {
       headerName: "Date",
       width: 220,
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <DeleteOutline
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
-            />
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     return (
+    //       <>
+    //         <DeleteOutline
+    //           className="deleteButton"
+    //           onClick={() => handleDelete(params.row.id)}
+    //         />
+    //       </>
+    //     );
+    //   },
+    // },
   ];
   return (
     <>

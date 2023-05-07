@@ -30,7 +30,7 @@ const AdminShowTagsList = () => {
     fetchApplications();
   }, [sendReq, currentUser.token]);
 
-  const handleDelete = async (titleUrl, id) => {
+  const handleDelete = async (id) => {
     const isDelete = window.confirm("Are you sure for deleting this tag?");
     // if (isDelete) {
     //   setLoadedTags(loadedTags.filter((item) => item.id !== id));
@@ -87,21 +87,21 @@ const AdminShowTagsList = () => {
       headerName: "Date",
       width: 220,
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <DeleteOutline
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.titleUrl, params.row.id)}
-            />
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     return (
+    //       <>
+    //         <DeleteOutline
+    //           className="deleteButton"
+    //           onClick={() => handleDelete(params.row.titleUrl, params.row.id)}
+    //         />
+    //       </>
+    //     );
+    //   },
+    // },
   ];
   return (
     <>

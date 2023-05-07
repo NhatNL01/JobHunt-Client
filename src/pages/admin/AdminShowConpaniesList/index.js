@@ -30,7 +30,7 @@ const AdminShowCompaniesList = () => {
     fetchApplications();
   }, [sendReq, currentUser.token]);
 
-  const handleDelete = async (titleUrl, id) => {
+  const handleDelete = async (id) => {
     const isDelete = window.confirm("Are you sure for deleting this company?");
     if (isDelete) {
       setLoadedCompanies(loadedCompanies.filter((item) => item.id !== id));
@@ -122,7 +122,7 @@ const AdminShowCompaniesList = () => {
           <>
             <DeleteOutline
               className="deleteButton"
-              onClick={() => handleDelete(params.row.titleUrl, params.row.id)}
+              onClick={() => handleDelete(params.row.id)}
             />
           </>
         );
