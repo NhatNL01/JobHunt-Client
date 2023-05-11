@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 // import "antd/dist/antd.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
+import LockIcon from "@mui/icons-material/Lock";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 import ListImage from "../../../components/ListImage/ListImage";
 
 import "./styles.scss";
@@ -11,6 +13,7 @@ import useHttpClient from "../../../hooks/useHttpClient";
 
 const AdminShowUsersList = () => {
   const [loadedUsers, setLoadedUsers] = useState([]);
+  const [reload, setReload] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { sendReq } = useHttpClient();
   useEffect(() => {
@@ -28,22 +31,37 @@ const AdminShowUsersList = () => {
       } catch (err) {}
     };
     fetchApplications();
-  }, [sendReq, currentUser.token]);
+  }, [sendReq, reload, currentUser.token]);
 
-  const handleDelete = async (id) => {
-    // const isDelete = window.confirm("Bạn có chắc muốn xóa không?");
-    // if (isDelete) {
-    //   // setData(data.filter((item) => item._id !== id));
-    //   await sendReq(
-    //     `${process.env.REACT_APP_BASE_URL}/posts/`,
-    //     "DELETE",
-    //     null,
-    //     {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${currentUser.token}`,
-    //     }
-    //   );
-    // }
+  const handleLock = async (id) => {
+    const isLock = window.confirm("Are you sure to lock this user?");
+    if (isLock) {
+      await sendReq(
+        `${process.env.REACT_APP_BASE_URL}/users/${id}/lock`,
+        "PATCH",
+        null,
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
+        }
+      );
+      setReload(!reload);
+    }
+  };
+  const handleUnLock = async (id) => {
+    const isLock = window.confirm("Are you sure to unlock this user?");
+    if (isLock) {
+      await sendReq(
+        `${process.env.REACT_APP_BASE_URL}/users/${id}/unlock`,
+        "PATCH",
+        null,
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
+        }
+      );
+      setReload(!reload);
+    }
   };
 
   const columns = [
@@ -51,7 +69,7 @@ const AdminShowUsersList = () => {
     {
       field: "id",
       headerName: "ID",
-      width: 250,
+      width: 180,
       renderCell: (params) => {
         return <div className="userListField">{params.row.id}</div>;
       },
@@ -71,7 +89,7 @@ const AdminShowUsersList = () => {
     {
       field: "name",
       headerName: "Name",
-      width: 180,
+      width: 150,
       renderCell: (params) => {
         return <div className="userListField">{params.row.name}</div>;
       },
@@ -79,7 +97,7 @@ const AdminShowUsersList = () => {
     {
       field: "email",
       headerName: "Email",
-      width: 250,
+      width: 200,
       renderCell: (params) => {
         return <div className="userListField">{params.row.email}</div>;
       },
@@ -87,7 +105,7 @@ const AdminShowUsersList = () => {
     {
       field: "posts",
       headerName: "Total post",
-      width: 100,
+      width: 80,
       renderCell: (params) => {
         return <div className="userListField">{params.row.posts?.length}</div>;
       },
@@ -114,23 +132,42 @@ const AdminShowUsersList = () => {
     {
       field: "joinDate",
       headerName: "Date",
-      width: 220,
+      width: 180,
     },
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   width: 150,
-    //   renderCell: (params) => {
-    //     return (
-    //       <>
-    //         <DeleteOutline
-    //           className="deleteButton"
-    //           onClick={() => handleDelete(params.row.id)}
-    //         />
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 60,
+      renderCell: (params) => {
+        return (
+          <>
+            {params.row.active ? (
+              <button
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                }}>
+                <LockIcon
+                  className="deleteButton"
+                  onClick={() => handleLock(params.row.id)}
+                />
+              </button>
+            ) : (
+              <button
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                }}>
+                <LockOpenIcon
+                  className="deleteButton"
+                  onClick={() => handleUnLock(params.row.id)}
+                />
+              </button>
+            )}
+          </>
+        );
+      },
+    },
   ];
   return (
     <>
@@ -144,13 +181,13 @@ const AdminShowUsersList = () => {
           rows={loadedUsers}
           disableSelectionOnClick
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
           autoHeight
           getRowHeight={() => "auto"}
           sx={{
             textAlign: "center",
-            fontSize: 15,
+            fontSize: 12,
             boxShadow: 2,
             border: 2,
             borderColor: "primary.light",

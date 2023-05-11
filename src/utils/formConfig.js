@@ -276,6 +276,37 @@ export const newApplicationForm = {
   },
 };
 
+export const newComapnyForm = {
+  name: {
+    ...createFormFieldConfig("Name", "name", "text"),
+    validationRules: [requiredRule("name")],
+  },
+  avatar: {
+    ...createFormFieldConfig("Avatar", "avatar", "file"),
+    validationRules: [requiredRule("avatar")],
+  },
+  description: {
+    ...createFormFieldConfig("Description", "description", "text"),
+    validationRules: [requiredRule("description")],
+  },
+  foundedYear: {
+    ...createFormFieldConfig("Founded Year", "foundedYear", "text"),
+    validationRules: [requiredRule("foundedYear")],
+  },
+  scale: {
+    ...createFormFieldConfig("Scale", "scale", "text"),
+    validationRules: [requiredRule("scale")],
+  },
+  address: {
+    ...createFormFieldConfig("Address", "address", "text"),
+    validationRules: [requiredRule("address")],
+  },
+  contact: {
+    ...createFormFieldConfig("Contact", "contact", "text"),
+    validationRules: [requiredRule("contact")],
+  },
+};
+
 export const prefillEditPostForm = (data) => {
   for (let [key, value] of Object.entries(data)) {
     if (key in editPostForm) {

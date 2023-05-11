@@ -11,6 +11,7 @@ import useHttpClient from "../../../hooks/useHttpClient";
 
 const AdminShowTagsList = () => {
   const [loadedTags, setLoadedTags] = useState([]);
+  const [reload, setReload] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { sendReq } = useHttpClient();
   useEffect(() => {
@@ -28,22 +29,23 @@ const AdminShowTagsList = () => {
       } catch (err) {}
     };
     fetchApplications();
-  }, [sendReq, currentUser.token]);
+  }, [sendReq, reload, currentUser.token]);
 
   const handleDelete = async (id) => {
     const isDelete = window.confirm("Are you sure for deleting this tag?");
-    // if (isDelete) {
-    //   setLoadedTags(loadedTags.filter((item) => item.id !== id));
-    //   await sendReq(
-    //     `${process.env.REACT_APP_BASE_URL}/Tags/${id}`,
-    //     "DELETE",
-    //     null,
-    //     {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${currentUser.token}`,
-    //     }
-    //   );
-    // }
+    if (isDelete) {
+      // setLoadedTags(loadedTags.filter((item) => item.id !== id));
+      setReload(!reload);
+      await sendReq(
+        `${process.env.REACT_APP_BASE_URL}/tags/${id}`,
+        "DELETE",
+        null,
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
+        }
+      );
+    }
   };
 
   const columns = [
@@ -51,7 +53,7 @@ const AdminShowTagsList = () => {
     {
       field: "id",
       headerName: "ID",
-      width: 250,
+      width: 180,
       renderCell: (params) => {
         return <div className="userListField h-16">{params.row.id}</div>;
       },
@@ -85,7 +87,7 @@ const AdminShowTagsList = () => {
     {
       field: "date",
       headerName: "Date",
-      width: 220,
+      width: 180,
     },
     // {
     //   field: "action",
@@ -96,7 +98,7 @@ const AdminShowTagsList = () => {
     //       <>
     //         <DeleteOutline
     //           className="deleteButton"
-    //           onClick={() => handleDelete(params.row.titleUrl, params.row.id)}
+    //           onClick={() => handleDelete(params.row.id)}
     //         />
     //       </>
     //     );
@@ -110,13 +112,13 @@ const AdminShowTagsList = () => {
           rows={loadedTags}
           disableSelectionOnClick
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
           autoHeight
           getRowHeight={() => "auto"}
           sx={{
             textAlign: "center",
-            fontSize: 15,
+            fontSize: 12,
             boxShadow: 2,
             border: 2,
             borderColor: "primary.light",

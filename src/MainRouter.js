@@ -30,6 +30,7 @@ import AdminShowUsersList from "./pages/admin/AdminShowUsersList";
 import AdminShowPostsList from "./pages/admin/AdminShowPostsList";
 import AdminShowConpanysList from "./pages/admin/AdminShowConpaniesList";
 import AdminShowTagsList from "./pages/admin/AdminShowTagsList";
+import AdminCreateCompany from "./pages/admin/AdminCreateCompany/AdminCreateCompany";
 
 const MainRouter = () => {
   let routes;
@@ -61,6 +62,11 @@ const MainRouter = () => {
             <Route path="/companies" exact>
               <AdminPage>
                 <AdminShowConpanysList />
+              </AdminPage>
+            </Route>
+            <Route path="/companies/new" exact>
+              <AdminPage>
+                <AdminCreateCompany />
               </AdminPage>
             </Route>
             <Route path="/tags" exact>

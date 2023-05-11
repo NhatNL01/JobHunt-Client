@@ -51,7 +51,7 @@ const AdminShowPostsList = () => {
     {
       field: "id",
       headerName: "ID",
-      width: 250,
+      width: 180,
       renderCell: (params) => {
         return <div className="userListField">{params.row.id}</div>;
       },
@@ -87,7 +87,7 @@ const AdminShowPostsList = () => {
     {
       field: "author",
       headerName: "Author",
-      width: 220,
+      width: 150,
       renderCell: (params) => {
         return <div className="userListField">{params.row.author?.name}</div>;
       },
@@ -96,7 +96,7 @@ const AdminShowPostsList = () => {
     {
       field: "likes",
       headerName: "Likes",
-      width: 100,
+      width: 80,
       renderCell: (params) => {
         return <div className="userListField">{params.row.likes?.length}</div>;
       },
@@ -104,7 +104,7 @@ const AdminShowPostsList = () => {
     {
       field: "bookmarks",
       headerName: "Bookmarks",
-      width: 100,
+      width: 80,
       renderCell: (params) => {
         return (
           <div className="userListField">{params.row.bookmarks?.length}</div>
@@ -122,12 +122,12 @@ const AdminShowPostsList = () => {
     {
       field: "date",
       headerName: "Date",
-      width: 220,
+      width: 180,
     },
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 60,
       renderCell: (params) => {
         return (
           <>
@@ -152,13 +152,13 @@ const AdminShowPostsList = () => {
           rows={loadedPosts}
           disableSelectionOnClick
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
           autoHeight
           getRowHeight={() => "auto"}
           sx={{
             textAlign: "center",
-            fontSize: 15,
+            fontSize: 12,
             boxShadow: 2,
             border: 2,
             borderColor: "primary.light",

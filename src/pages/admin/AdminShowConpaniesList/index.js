@@ -51,7 +51,7 @@ const AdminShowCompaniesList = () => {
     {
       field: "id",
       headerName: "ID",
-      width: 220,
+      width: 180,
       renderCell: (params) => {
         return <div className="userListField">{params.row.id}</div>;
       },
@@ -79,7 +79,7 @@ const AdminShowCompaniesList = () => {
     {
       field: "foundedYear",
       headerName: "Founded Year",
-      width: 120,
+      width: 80,
       renderCell: (params) => {
         return <div className="userListField">{params.row.foundedYear}</div>;
       },
@@ -95,7 +95,7 @@ const AdminShowCompaniesList = () => {
     {
       field: "address",
       headerName: "Address",
-      width: 180,
+      width: 120,
       renderCell: (params) => {
         return <div className="userListField">{params.row.address}</div>;
       },
@@ -111,12 +111,12 @@ const AdminShowCompaniesList = () => {
     {
       field: "joinDate",
       headerName: "JoinDate",
-      width: 220,
+      width: 140,
     },
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 60,
       renderCell: (params) => {
         return (
           <>
@@ -132,17 +132,27 @@ const AdminShowCompaniesList = () => {
   return (
     <>
       <div className="h-screen w-5/6">
+        <Link
+          to="/companies/new"
+          className="btn"
+          style={{
+            backgroundColor: "#2789d8",
+            color: "#fff",
+            margin: " 6px 10px",
+          }}>
+          New Company +
+        </Link>
         <DataGrid
           rows={loadedCompanies}
           disableSelectionOnClick
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
           autoHeight
           getRowHeight={() => "auto"}
           sx={{
             textAlign: "center",
-            fontSize: 15,
+            fontSize: 12,
             boxShadow: 2,
             border: 2,
             borderColor: "primary.light",
