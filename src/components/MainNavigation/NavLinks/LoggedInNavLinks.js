@@ -1,4 +1,5 @@
 import { RiNotificationLine } from "@react-icons/all-files/ri/RiNotificationLine";
+import { FaFacebookMessenger } from "@react-icons/all-files/fa/FaFacebookMessenger";
 import React, { useState, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import Avatar from "../../Avatar/Avatar";
@@ -29,6 +30,7 @@ export const LoggedInNavLinks = ({
     // window.location.reload();
     logout();
   };
+
   return (
     <React.Fragment>
       <li className="list__item list__item--mobile item--create">
@@ -48,6 +50,13 @@ export const LoggedInNavLinks = ({
             {unreadNotifications && unreadNotifications.length > 0 && (
               <div className="notif__counter">{unreadNotifications.length}</div>
             )}
+          </div>
+        </NavLink>
+      </li>
+      <li className="list__item list__item--notifs hvr-bg-lt">
+        <NavLink className="link" to={`/chat`} exact>
+          <div className="link--notifs-icon">
+            <FaFacebookMessenger size="2.5rem" />
           </div>
         </NavLink>
       </li>

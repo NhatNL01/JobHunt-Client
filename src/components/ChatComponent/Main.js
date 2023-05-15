@@ -20,320 +20,192 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import useHttpClient from "../../hooks/useHttpClient";
 import { AuthContext } from "../../context/auth";
+import moment from "moment/moment";
+import { SocketContext } from "../../context/socket";
 
 export default function Main() {
   // Set initial message input value to empty string
   const [messageInputValue, setMessageInputValue] = useState("");
-  const [loadedUsers, setLoadedUsers] = useState([]);
-
   const { currentUser } = useContext(AuthContext);
-  const { isLoading, sendReq, error, clearError } = useHttpClient();
+  const { sendReq } = useHttpClient();
+  const [loadedRooms, setLoadedRooms] = useState([]);
+  const [loadedMessages, setLoadedMessages] = useState([]);
+  const [currentRoom, setCurrentRoom] = useState({ members: [] });
+  const [reload, setReload] = useState(false);
+  const [userIndexInMembers, setUserIndexInMembers] = useState("1");
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchPosts = async () => {
       try {
         const responseData = await sendReq(
-          `${process.env.REACT_APP_BASE_URL}/users`,
+          `${process.env.REACT_APP_BASE_URL}/rooms/${currentUser.userId}`,
           "GET",
           null,
           {
             Authorization: `Bearer ${currentUser.token}`,
           }
         );
-        setLoadedUsers(responseData.users);
+
+        setLoadedRooms(responseData.rooms);
+        setCurrentRoom(responseData.rooms[0]);
       } catch (err) {}
     };
-    fetchUsers();
-  }, [sendReq, currentUser.userId, currentUser]);
+    fetchPosts();
+  }, [sendReq, currentUser.userId]);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const responseData = await sendReq(
+          `${process.env.REACT_APP_BASE_URL}/messages/${currentRoom.id}`,
+          "GET",
+          null,
+          {
+            Authorization: `Bearer ${currentUser.token}`,
+          }
+        );
+        setLoadedMessages(responseData.messages);
+      } catch (err) {}
+    };
+    if (currentRoom.id) {
+      fetchMessages();
+    }
+  }, [sendReq, currentRoom.id, reload]);
 
-  //   useEffect(() => {
-  //     const fetchMessages = async () => {
-  //       try {
-  //         const responseData = await sendReq(
-  //           `${process.env.REACT_APP_BASE_URL}/messages/`,
-  //           "GET"
-  //         );
-  //         setLoadedMessages(responseData.messages);
-  //       } catch (err) {}
-  //     };
-  //     fetchMessages();
-  //   }, [sendReq]);
+  const handleSendMessage = async () => {
+    const reqData = {
+      text: messageInputValue,
+      sender: currentUser.userId,
+      roomId: currentRoom.id,
+    };
+    try {
+      await sendReq(
+        `${process.env.REACT_APP_BASE_URL}/messages`,
+        "POST",
+        JSON.stringify(reqData),
+        {
+          Authorization: `Bearer ${currentUser.token}`,
+          "Content-Type": "application/json",
+        }
+      );
+      // setReload(!reload);
+      if (socket.current) {
+        socket.current.emit("chat", {
+          sender: currentUser,
+          roomId: currentRoom.id,
+          text: messageInputValue,
+        });
+      }
+    } catch (err) {}
+    setMessageInputValue("");
+  };
+
+  useEffect(() => {
+    socket.current.on("chatReceived", (data) => {
+      setReload(!reload);
+    });
+  }, [socket.current, reload]);
 
   return (
     <div
+      className="chat-container"
       style={{
-        height: "600px",
+        height: "90vh",
         position: "relative",
+        fontSize: "30px",
+        width: "100%",
       }}>
       <MainContainer responsive>
         <Sidebar position="left" scrollable={false}>
-          <Search placeholder="Search..." />
+          {/* <Search placeholder="Search..." /> */}
           <ConversationList>
-            <Conversation
-              name="Lilly"
-              lastSenderName="Lilly"
-              info="Yes i can do it for you"
-              style={{ justifyContent: "start" }}>
-              <Avatar
-                src={require("./avatar.jpg")}
-                name="Lilly"
-                status="available"
-              />
-            </Conversation>
-
-            <Conversation
-              name="Joe"
-              lastSenderName="Joe"
-              info="Yes i can do it for you">
-              <Avatar src={require("./avatar.jpg")} name="Joe" status="dnd" />
-            </Conversation>
-
-            <Conversation
-              name="Emily"
-              lastSenderName="Emily"
-              info="Yes i can do it for you"
-              unreadCnt={3}>
-              <Avatar
-                src={require("./avatar.jpg")}
-                name="Emily"
-                status="available"
-              />
-            </Conversation>
-
-            <Conversation
-              name="Kai"
-              lastSenderName="Kai"
-              info="Yes i can do it for you"
-              unreadDot>
-              <Avatar
-                src={require("./avatar.jpg")}
-                name="Kai"
-                status="unavailable"
-              />
-            </Conversation>
-
-            <Conversation
-              name="Akane"
-              lastSenderName="Akane"
-              info="Yes i can do it for you">
-              <Avatar
-                src={require("./avatar.jpg")}
-                name="Akane"
-                status="eager"
-              />
-            </Conversation>
-
-            <Conversation
-              name="Eliot"
-              lastSenderName="Eliot"
-              info="Yes i can do it for you">
-              <Avatar
-                src={require("./avatar.jpg")}
-                name="Eliot"
-                status="away"
-              />
-            </Conversation>
-
-            <Conversation
-              name="Zoe"
-              lastSenderName="Zoe"
-              info="Yes i can do it for you"
-              active>
-              <Avatar src={require("./avatar.jpg")} name="Zoe" status="dnd" />
-            </Conversation>
-
-            <Conversation
-              name="Patrik"
-              lastSenderName="Patrik"
-              info="Yes i can do it for you">
-              <Avatar
-                src={require("./avatar.jpg")}
-                name="Patrik"
-                status="invisible"
-              />
-            </Conversation>
+            {loadedRooms.map((room) => {
+              return (
+                <Conversation
+                  onClick={() => {
+                    setCurrentRoom(room);
+                    setUserIndexInMembers(() => {
+                      return room.members[0].id == currentUser.userId
+                        ? "1"
+                        : "0";
+                    });
+                    setReload(!reload);
+                  }}
+                  name={
+                    room.members[
+                      room.members[0].id == currentUser.userId ? "1" : "0"
+                    ]?.name
+                  }
+                  // lastSenderName="Lilly"
+                  // info="Yes i can do it for you"
+                >
+                  <Avatar
+                    src={
+                      room.members[
+                        room.members[0].id == currentUser.userId ? "1" : "0"
+                      ]?.avatar
+                    }
+                    // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReiyHYtDJQ0t5jCs4j_PiD5ESMvPwnvHVa3w&usqp=CAU"
+                    name="Lilly"
+                  />
+                </Conversation>
+              );
+            })}
           </ConversationList>
         </Sidebar>
 
         <ChatContainer>
           <ConversationHeader>
             <ConversationHeader.Back />
-            <Avatar src={require("./avatar.jpg")} name="Zoe" />
+            <Avatar
+              src={currentRoom.members[userIndexInMembers]?.avatar}
+              name={currentRoom.members[userIndexInMembers]?.name}
+            />
             <ConversationHeader.Content
-              userName="Zoe"
-              info="Active 10 mins ago"
+              userName={currentRoom.members[userIndexInMembers]?.name}
+              // info="Active 10 mins ago"
             />
             <ConversationHeader.Actions>
-              <VoiceCallButton />
+              {/* <VoiceCallButton />
               <VideoCallButton />
-              <InfoButton />
+              <InfoButton /> */}
             </ConversationHeader.Actions>
           </ConversationHeader>
           <MessageList
-            typingIndicator={<TypingIndicator content="Zoe is typing" />}>
-            <MessageSeparator content="Saturday, 30 November 2019" />
-
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Zoe",
-                direction: "incoming",
-                position: "single",
-              }}>
-              <Avatar src={require("./avatar.jpg")} name="Zoe" />
-            </Message>
-
-            <Message
-              model={{
-                message: "Hello",
-                sentTime: "15 mins ago",
-                sender: "Patrik",
-                direction: "outgoing",
-                position: "single",
-              }}
-              avatarSpacer
-            />
-
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Zoe",
-                direction: "incoming",
-                position: "first",
-              }}
-              avatarSpacer
-            />
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Zoe",
-                direction: "incoming",
-                position: "normal",
-              }}
-              avatarSpacer
-            />
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Zoe",
-                direction: "incoming",
-                position: "normal",
-              }}
-              avatarSpacer
-            />
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Zoe",
-                direction: "incoming",
-                position: "last",
-              }}>
-              <Avatar src={require("./avatar.jpg")} name="Zoe" />
-            </Message>
-
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Patrik",
-                direction: "outgoing",
-                position: "first",
-              }}
-            />
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Patrik",
-                direction: "outgoing",
-                position: "normal",
-              }}
-            />
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Patrik",
-                direction: "outgoing",
-                position: "normal",
-              }}
-            />
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Patrik",
-                direction: "outgoing",
-                position: "last",
-              }}
-            />
-
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Zoe",
-                direction: "incoming",
-                position: "first",
-              }}
-              avatarSpacer
-            />
-            <Message
-              model={{
-                message: "Hello my friend",
-                sentTime: "15 mins ago",
-                sender: "Zoe",
-                direction: "incoming",
-                position: "last",
-              }}>
-              <Avatar src={require("./avatar.jpg")} name="Zoe" />
-            </Message>
+          // typingIndicator={<TypingIndicator content="Zoe is typing" />}
+          >
+            {/* <MessageSeparator content="Saturday, 30 November 2019" /> */}
+            {loadedMessages.map((mess) => {
+              return (
+                <Message
+                  model={{
+                    message: `${mess.text}`,
+                    // sentTime: "15 mins ago",
+                    sender: `${mess.sender.name}`,
+                    direction:
+                      mess.sender.id == currentUser.userId
+                        ? "outgoing"
+                        : "incoming",
+                    position: "single",
+                  }}>
+                  <Message.Header
+                    sender={mess.sender.name}
+                    // sentTime={mess.date}
+                    sentTime={moment(mess.date).fromNow()}
+                    // sentTime={moment(mess.date).format("YYYY-MM-DD HH:mm:ss")}
+                  />
+                  <Avatar src={mess.sender.avatar} name="Zoe" />
+                </Message>
+              );
+            })}
           </MessageList>
           <MessageInput
             placeholder="Type message here"
             value={messageInputValue}
             onChange={(val) => setMessageInputValue(val)}
-            onSend={() => setMessageInputValue("")}
+            onSend={handleSendMessage}
           />
         </ChatContainer>
-
-        {/* <Sidebar position="right">
-          <ExpansionPanel open title="INFO">
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-          </ExpansionPanel>
-          <ExpansionPanel title="LOCALIZATION">
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-          </ExpansionPanel>
-          <ExpansionPanel title="MEDIA">
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-          </ExpansionPanel>
-          <ExpansionPanel title="SURVEY">
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-          </ExpansionPanel>
-          <ExpansionPanel title="OPTIONS">
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-            <p>Lorem ipsum</p>
-          </ExpansionPanel>
-        </Sidebar> */}
       </MainContainer>
     </div>
   );

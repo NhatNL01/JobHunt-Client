@@ -35,7 +35,6 @@ import AdminCreateCompany from "./pages/admin/AdminCreateCompany/AdminCreateComp
 const MainRouter = () => {
   let routes;
   const { isLoggedIn, currentUser } = useContext(AuthContext);
-  console.log(currentUser);
   if (isLoggedIn) {
     if (currentUser?.role === "admin") {
       routes = (
@@ -47,6 +46,11 @@ const MainRouter = () => {
             <Route path="/" exact>
               <AdminPage>
                 <AdminDashboard />
+              </AdminPage>
+            </Route>
+            <Route path="/chat" exact>
+              <AdminPage>
+                <Main />
               </AdminPage>
             </Route>
             <Route path="/users" exact>
@@ -146,7 +150,7 @@ const MainRouter = () => {
             </Route>
             <Redirect to="/auth" />
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </>
       );
     }

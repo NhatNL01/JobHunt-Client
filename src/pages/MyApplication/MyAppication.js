@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+
+import {
+  useParams,
+  useHistory,
+} from "react-router-dom/cjs/react-router-dom.min";
 import useHttpClient from "../../hooks/useHttpClient";
 import { AuthContext } from "../../context/auth";
 import ListImage from "../../components/ListImage/ListImage";
@@ -10,6 +14,7 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import SyntaxHighlight from "../../components/SyntaxHighlight/SyntaxHighlight";
 
 const MyApplication = () => {
+  const history = useHistory();
   const [loadedApplications, setLoadedApplications] = useState([]);
   const { userId } = useParams();
   const { currentUser } = useContext(AuthContext);
@@ -30,6 +35,29 @@ const MyApplication = () => {
     };
     fetchApplications();
   }, [sendReq, currentUser, userId]);
+
+  const createChatRoom = async (hrId) => {
+    try {
+      const reqData = {
+        name: `${hrId}-${currentUser.userId}`,
+        description: `Chat room of ${hrId}-${currentUser.userId}`,
+        member1: hrId,
+        member2: currentUser.userId,
+      };
+      await sendReq(
+        `${process.env.REACT_APP_BASE_URL}/rooms`,
+        "POST",
+        JSON.stringify(reqData),
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
+        }
+      );
+      history.push("/chat");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const columns = [
     // { field: "id", headerName: "Application ID", width: 155 },
@@ -64,7 +92,7 @@ const MyApplication = () => {
     {
       field: "body",
       headerName: "Body",
-      width: 400,
+      width: 600,
       renderCell: (params) => {
         return (
           <div className="post__text">
@@ -99,7 +127,23 @@ const MyApplication = () => {
     {
       field: "date",
       headerName: "Date",
-      width: 400,
+      width: 220,
+    },
+    {
+      field: "Chat",
+      headerName: "Chat",
+      width: 220,
+      renderCell: (params) => {
+        return (
+          <>
+            <button
+              onClick={() => createChatRoom(params.row?.job?.author)}
+              className={`editButton approved`}>
+              Chat with recruiter
+            </button>
+          </>
+        );
+      },
     },
   ];
   return (

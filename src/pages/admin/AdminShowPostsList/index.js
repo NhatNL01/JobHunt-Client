@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import queryString from "query-string";
 // import "antd/dist/antd.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
@@ -8,6 +9,7 @@ import ListImage from "../../../components/ListImage/ListImage";
 import "./styles.scss";
 import { AuthContext } from "../../../context/auth";
 import useHttpClient from "../../../hooks/useHttpClient";
+import SearchBar from "../../../components/SearchBar/SearchBar";
 
 const AdminShowPostsList = () => {
   const [loadedPosts, setLoadedPosts] = useState([]);
@@ -140,6 +142,25 @@ const AdminShowPostsList = () => {
       },
     },
   ];
+  //handle input change for search bar
+
+  //handle 'enter' press event
+  const onEnterKey = async (evt) => {
+    if (evt.keyCode === 13) {
+      evt.preventDefault();
+      try {
+        const query = queryString.stringify({ search: evt.target.value });
+        const responseData = await sendReq(
+          `${process.env.REACT_APP_BASE_URL}/posts/search?${query}`
+        );
+        setLoadedPosts(responseData.posts);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      // setSearchResults([]);
+    }
+  };
   return (
     <>
       <div className="h-screen w-5/6">
@@ -148,6 +169,14 @@ const AdminShowPostsList = () => {
             Create user
           </button>
         </Link> */}
+        <div style={{ width: "30%", marginBottom: "10px" }}>
+          <input
+            className={"search-bar "}
+            key="random1"
+            placeholder={"Search..."}
+            onKeyDown={onEnterKey}
+          />
+        </div>
         <DataGrid
           rows={loadedPosts}
           disableSelectionOnClick

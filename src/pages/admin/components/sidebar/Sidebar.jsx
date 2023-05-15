@@ -58,6 +58,12 @@ const Sidebar = () => {
                 Tags
               </li>
             </Link>
+            <Link to="/chat" className="link">
+              <li style={{ color: "white" }}>
+                <ChatBubbleOutline className="icon" />
+                Chat
+              </li>
+            </Link>
           </ul>
         </div>
       </div>

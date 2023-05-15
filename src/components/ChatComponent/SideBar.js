@@ -1,26 +1,54 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 // import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   ConversationList,
   Avatar,
   Conversation,
 } from "@chatscope/chat-ui-kit-react";
+import useHttpClient from "../../hooks/useHttpClient";
+import { AuthContext } from "../../context/auth";
 
 export default function SideBar() {
+  const { currentUser } = useContext(AuthContext);
+  const { isLoading, sendReq, error, clearError } = useHttpClient();
+  const [loadedRooms, setLoadedRooms] = useState([]);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const responseData = await sendReq(
+          `${process.env.REACT_APP_BASE_URL}/rooms/${currentUser.id}`,
+          "GET",
+          null,
+          {
+            Authorization: `Bearer ${currentUser.token}`,
+          }
+        );
+
+        setLoadedRooms(responseData.rooms);
+      } catch (err) {}
+    };
+    fetchRooms();
+  }, [sendReq, currentUser.id]);
+
   return (
     <div
       style={{
         height: "460px",
       }}>
       <ConversationList>
-        <Conversation
-          name="Lilly"
-          lastSenderName="Lilly"
-          info="Yes i can do it for you">
-          <Avatar src={require("./images/ram.png")} name="Lilly" />
-        </Conversation>
+        {loadedRooms.map((room) => {
+          return (
+            <Conversation
+              name="Lilly"
+              lastSenderName="Lilly"
+              info="Yes i can do it for you">
+              <Avatar src={require("./images/ram.png")} name="Lilly" />
+            </Conversation>
+          );
+        })}
 
-        <Conversation
+        {/* <Conversation
           name="Joe"
           lastSenderName="Joe"
           info="Yes i can do it for you">
@@ -67,7 +95,7 @@ export default function SideBar() {
           lastSenderName="Patrik"
           info="Yes i can do it for you">
           <Avatar src={require("./images/ram.png")} name="Patrik" />
-        </Conversation>
+        </Conversation> */}
       </ConversationList>
     </div>
   );

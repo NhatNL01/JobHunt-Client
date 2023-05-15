@@ -48,16 +48,16 @@ const AdminDashboard = () => {
         "December",
       ];
       const dataEnd = [];
-      month.reduce((totalPost, mon) => {
+      month.forEach((mon) => {
         let dataByMonth = loadedPosts.reduce((total, dt) => {
           let m = new Date(dt.date);
           return month[m.getMonth()] == mon ? total + 1 : total;
         }, 0);
         dataEnd.push({
           name: mon,
-          "Total Post": totalPost,
+          "Post by month": dataByMonth,
         });
-        return totalPost + dataByMonth;
+        // return totalPost + dataByMonth;
       }, 0);
       setLoadedPostsChart(dataEnd);
     }
@@ -71,7 +71,7 @@ const AdminDashboard = () => {
           data={loadedPostsChart}
           grid={true}
           title={"Posts Analytics"}
-          dataKey="Total Post"
+          dataKey="Post by month"
         />
         {/* <div className="widgets"> */}
         {/* <WidgetSm usersData={usersData} /> */}

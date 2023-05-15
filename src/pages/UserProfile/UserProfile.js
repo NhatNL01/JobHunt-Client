@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useParams } from "react-router-dom";
@@ -19,6 +20,7 @@ import Shimmer from "../../components/Skeleton/Shimmer";
 
 const UserProfile = () => {
   let auth = useContext(AuthContext);
+  const history = useHistory();
   const [user, setUser] = useState({});
   // const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -85,6 +87,28 @@ const UserProfile = () => {
       console.log(err);
     }
   };
+  const createChatRoom = async () => {
+    try {
+      const reqData = {
+        name: `${userId}-${currentUserId}`,
+        description: `Chat room of ${userId}-${currentUserId}`,
+        member1: userId,
+        member2: currentUserId,
+      };
+      await sendReq(
+        `${process.env.REACT_APP_BASE_URL}/rooms`,
+        "POST",
+        JSON.stringify(reqData),
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
+        }
+      );
+      history.push("/chat");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -122,12 +146,21 @@ const UserProfile = () => {
                 </Link>
               </>
             ) : (
-              <FollowUser
-                followId={user.id}
-                followers={user.followers}
-                userToFollow={user}
-                setShowModal={setShowModal}
-              />
+              <>
+                <FollowUser
+                  followId={user.id}
+                  followers={user.followers}
+                  userToFollow={user}
+                  setShowModal={setShowModal}
+                />
+                <button
+                  className="btn btn--profile-cta btn--profile-edit"
+                  onClick={createChatRoom}
+                  // to={`/chat`}
+                >
+                  Chat
+                </button>
+              </>
             )}
           </div>
           {isLoading ? (

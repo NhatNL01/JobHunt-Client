@@ -4,6 +4,7 @@ import ErrorModal from "../../components/Modal/ErrorModal";
 import useHttpClient from "../../hooks/useHttpClient";
 import PostList from "../PostList/PostList";
 import PostType from "../PostType/PostType";
+import Dropdown from "../DropDown/DropDown";
 const Posts = ({ cover }) => {
   const [loadedPosts, setLoadedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -11,6 +12,7 @@ const Posts = ({ cover }) => {
   const [endPage, setEndPage] = useState(false);
   const pageSize = 5;
 
+  const [filter, setFilter] = useState("Latest");
   const [postType, setPostType] = useState("post");
   const { isLoading, sendReq, error, clearError } = useHttpClient();
 
@@ -19,7 +21,7 @@ const Posts = ({ cover }) => {
       try {
         setLoading(true);
         const responseData = await sendReq(
-          `${process.env.REACT_APP_BASE_URL}/posts/type/${postType}?page=${page}&pageSize=${pageSize}`
+          `${process.env.REACT_APP_BASE_URL}/posts/type/${postType}?page=${page}&pageSize=${pageSize}&filter=${filter}`
         );
         if (responseData.posts.length < pageSize) {
           setEndPage(true);
@@ -32,7 +34,7 @@ const Posts = ({ cover }) => {
       } catch (err) {}
     };
     fetchPosts();
-  }, [sendReq, postType, page]);
+  }, [sendReq, postType, page, filter]);
 
   function getType(type) {
     if (type !== postType) {
@@ -43,10 +45,25 @@ const Posts = ({ cover }) => {
     }
   }
 
+  const handleSelect = (e) => {
+    setFilter(e.target.value);
+    setLoadedPosts([]);
+    setPage(1);
+    setEndPage(false);
+  };
+
   return (
     <div>
       <ErrorModal error={error} onClose={clearError} />
-      <PostType getType={getType} postType={postType}></PostType>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+        }}>
+        <PostType getType={getType} postType={postType}></PostType>
+        <Dropdown handleSelect={handleSelect} menu={["Latest", "Top"]} />
+      </div>
       {loadedPosts && (
         <PostList isLoading={isLoading} items={loadedPosts} cover={cover} />
       )}
