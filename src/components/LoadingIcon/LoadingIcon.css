@@ -8,8 +8,16 @@
   border-radius: 50%;
   width: 15px;
   height: 15px;
-  animation: spin 2s linear infinite;
+  animation: spin 1.5s linear infinite;
 }
+
+.loading-chatgpt .loader {
+  border: 3px solid #ffffff;
+  border-top: 3px solid rgb(0, 0, 0);
+  width: 20px;
+  height: 20px;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

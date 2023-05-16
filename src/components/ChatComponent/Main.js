@@ -22,12 +22,13 @@ import useHttpClient from "../../hooks/useHttpClient";
 import { AuthContext } from "../../context/auth";
 import moment from "moment/moment";
 import { SocketContext } from "../../context/socket";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
 
 export default function Main() {
   // Set initial message input value to empty string
   const [messageInputValue, setMessageInputValue] = useState("");
   const { currentUser } = useContext(AuthContext);
-  const { sendReq } = useHttpClient();
+  const { sendReq, isLoading } = useHttpClient();
   const [loadedRooms, setLoadedRooms] = useState([]);
   const [loadedMessages, setLoadedMessages] = useState([]);
   const [currentRoom, setCurrentRoom] = useState({ members: [] });
@@ -78,17 +79,24 @@ export default function Main() {
       sender: currentUser.userId,
       roomId: currentRoom.id,
     };
+    setMessageInputValue("");
     try {
-      await sendReq(
-        `${process.env.REACT_APP_BASE_URL}/messages`,
-        "POST",
-        JSON.stringify(reqData),
-        {
-          Authorization: `Bearer ${currentUser.token}`,
-          "Content-Type": "application/json",
-        }
-      );
-      // setReload(!reload);
+      let reqURL =
+        currentRoom.members[userIndexInMembers]?.id ===
+        "646320b2e2dbf52fcc3ba8d9"
+          ? `${process.env.REACT_APP_BASE_URL}/messages/gpt`
+          : `${process.env.REACT_APP_BASE_URL}/messages`;
+      await sendReq(reqURL, "POST", JSON.stringify(reqData), {
+        Authorization: `Bearer ${currentUser.token}`,
+        "Content-Type": "application/json",
+      });
+      if (
+        currentRoom.members[userIndexInMembers]?.id ===
+        "646320b2e2dbf52fcc3ba8d9"
+      ) {
+        setReload(!reload);
+      }
+
       if (socket.current) {
         socket.current.emit("chat", {
           sender: currentUser,
@@ -97,14 +105,29 @@ export default function Main() {
         });
       }
     } catch (err) {}
-    setMessageInputValue("");
   };
-
+  // console.log(loadedMessages);
   useEffect(() => {
     socket.current.on("chatReceived", (data) => {
-      setReload(!reload);
+      // console.log(loadedMessages);
+      setLoadedMessages((prev) => {
+        return [
+          ...prev,
+          {
+            sender: data.sender,
+            roomId: data.roomId,
+            text: data.text,
+          },
+        ];
+      });
+      // setReload(!reload);
     });
-  }, [socket.current, reload]);
+  }, [
+    socket.current,
+    // , reload
+  ]);
+
+  console.log(loadedMessages);
 
   return (
     <div
@@ -114,7 +137,20 @@ export default function Main() {
         position: "relative",
         fontSize: "30px",
         width: "100%",
+        position: "relative",
       }}>
+      {isLoading && (
+        <div
+          className="loading-chatgpt"
+          style={{
+            position: "absolute",
+            top: "88%",
+            left: "60%",
+            zIndex: "10",
+          }}>
+          <LoadingIcon />
+        </div>
+      )}
       <MainContainer responsive>
         <Sidebar position="left" scrollable={false}>
           {/* <Search placeholder="Search..." /> */}
@@ -183,7 +219,8 @@ export default function Main() {
                     // sentTime: "15 mins ago",
                     sender: `${mess.sender.name}`,
                     direction:
-                      mess.sender.id == currentUser.userId
+                      mess.sender.id == currentUser.userId ||
+                      mess.sender.userId == currentUser.userId
                         ? "outgoing"
                         : "incoming",
                     position: "single",
@@ -194,11 +231,13 @@ export default function Main() {
                     sentTime={moment(mess.date).fromNow()}
                     // sentTime={moment(mess.date).format("YYYY-MM-DD HH:mm:ss")}
                   />
+
                   <Avatar src={mess.sender.avatar} name="Zoe" />
                 </Message>
               );
             })}
           </MessageList>
+          <LoadingIcon />
           <MessageInput
             placeholder="Type message here"
             value={messageInputValue}

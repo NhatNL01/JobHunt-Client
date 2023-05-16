@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { FaBlackTie } from '@react-icons/all-files/fa/FaBlackTie';
-import NavLinks from '../NavLinks/NavLinks';
-import './Nav.css';
-import { SocketContext } from '../../../context/socket';
-import SideDrawer from '../SideDrawer/SideDrawer';
-import { AuthContext } from '../../../context/auth';
-import { useHttpClient } from '../../../hooks/useHttpClient';
-import { NavLink } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from "react";
+import { FaBlackTie } from "@react-icons/all-files/fa/FaBlackTie";
+import NavLinks from "../NavLinks/NavLinks";
+import "./Nav.css";
+import { SocketContext } from "../../../context/socket";
+import SideDrawer from "../SideDrawer/SideDrawer";
+import { AuthContext } from "../../../context/auth";
+import { useHttpClient } from "../../../hooks/useHttpClient";
+import { NavLink } from "react-router-dom";
 
 const Nav = ({ children, onSearchIconClick }) => {
   const { currentUser } = useContext(AuthContext);
@@ -36,42 +36,42 @@ const Nav = ({ children, onSearchIconClick }) => {
         try {
           const responseData = await sendReq(
             `${process.env.REACT_APP_BASE_URL}/users/${userId}/notifications/unread`,
-            'GET',
+            "GET",
             null,
             {
               Authorization: `Bearer ${currentUser.token}`,
             }
           );
           setUnreadNotifications(responseData.notifications);
-        } catch (err) { }
+        } catch (err) {}
       };
       fetchUnreadNotifications();
     }
   }, [sendReq, userId, currentUser]);
 
   useEffect(() => {
-    current?.on('notificationReceived', (data) => {
+    current?.on("notificationReceived", (data) => {
+      // console.log(first)
       setUnreadNotifications((unreadNotifications) => {
         return [...unreadNotifications, data];
       });
     });
   }, [current]);
 
-
   return (
-    <div className='container container-nav'>
+    <div className="container container-nav">
       {drawerIsOpen && (
         <SideDrawer onClose={closeDrawerHandler} onClick={closeDrawerHandler} />
       )}
 
-      <div className='header__hamburger-menu' onClick={openDrawerHandler}></div>
-      <div className='header__logo-search'>
-        <NavLink to='/' className='header__logo'>
-          <FaBlackTie size='4.125rem' />
+      <div className="header__hamburger-menu" onClick={openDrawerHandler}></div>
+      <div className="header__logo-search">
+        <NavLink to="/" className="header__logo">
+          <FaBlackTie size="4.125rem" />
         </NavLink>
         {children}
       </div>
-      <nav className='nav'>
+      <nav className="nav">
         <NavLinks
           unreadNotifications={unreadNotifications}
           setUnreadNotifications={setUnreadNotifications}
